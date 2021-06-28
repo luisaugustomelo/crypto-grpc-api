@@ -16,10 +16,3 @@ COPY .env /app
 EXPOSE 9000
 
 ENTRYPOINT [ "./klever" ]
-# WORKDIR /app
-# COPY . /app
-# COPY .env /app
-# RUN go get -u -v -f all
-
-# EXPOSE 9000
-# CMD ["go", "run", "./server/server.go"]
