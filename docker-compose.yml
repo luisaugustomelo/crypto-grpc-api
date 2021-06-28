@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  app:
+    image: golang:1.16.5-alpine
+    container_name: klever
+    restart: always
+    ports:
+      - ${KLEVER_APPLICATION_PORT}:9000
+    working_dir: /app
+    entrypoint: ['go', 'run', './server/server.go']
+    volumes:
+      - .:/app
+    networks:
+      - klever-network
+    # depends_on:
+    #   - mongodb
+    # links:
+    #   - mongodb
+
+  # redis:
+  #   restart: always
+  #   image: redis:6
+  #   container_name: klever-redis
+  #   ports:
+  #     - '${KLEVER_REDIS_PORT}:6379'
+  #   networks:
+  #     - klever-network
+
+  # mongodb:
+  #   image: mongo:4.2.5
+  #   container_name: klever-mongodb
+  #   restart: always
+  #   ports:
+  #     - '27017:27017'
+  #   networks:
+  #     - klever-network
+
+networks:
+  klever-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: '${DOCKER_NETWORK_SUBNET}'
