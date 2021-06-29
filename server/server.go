@@ -26,7 +26,7 @@ func goDotEnvVariable(key string) string {
 func main() {
 	port := goDotEnvVariable("KLEVER_APPLICATION_PORT")
 
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		log.Fatalf("Failed to listen on port %v: %s", port, err)
 	} else {
