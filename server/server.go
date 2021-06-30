@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"klever/grpc/upvote/klever"
+	system "klever/grpc/upvote/system"
 	"log"
 	"net"
 	"os"
@@ -58,11 +58,11 @@ func main() {
 		log.Printf("Application listening on port %s", port)
 	}
 
-	s := klever.Server{}
+	s := system.Server{}
 
 	grpcServer := grpc.NewServer()
 
-	klever.RegisterUpVoteServiceServer(grpcServer, &s)
+	system.RegisterUpVoteServiceServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve gRPC server over port 9000: %v", err)

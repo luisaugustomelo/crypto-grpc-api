@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"klever/grpc/upvote/klever"
+	system "klever/grpc/upvote/system"
 )
 
 func main() {
@@ -19,9 +19,9 @@ func main() {
 
 	defer conn.Close()
 
-	c := klever.NewUpVoteServiceClient(conn)
+	c := system.NewUpVoteServiceClient(conn)
 
-	message := klever.Message{
+	message := system.Message{
 		Body: "Hello from the client!",
 	}
 

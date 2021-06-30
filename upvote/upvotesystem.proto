@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package upvote;
+
+option go_package = "system/";
+
+message Cryptocurrency {
+    string id = 1;
+    string name = 2;
+    string initials = 3;
+    string description = 4;
+    int32 upvote = 5;
+    int32 downvote = 6;
+}
+
+message Message {
+    string body = 1;
+}
+
+message CreateCryptocurrencyResponse {
+    Cryptocurrency crypto = 1;
+}
+
+message CreateCryptocurrencyRequest {
+    Cryptocurrency crypto = 1;
+}
+
+service UpVoteService {
+    rpc UpVote(Message) returns (Message) {}
+    rpc CreateCrypto(CreateCryptocurrencyRequest) returns (CreateCryptocurrencyResponse) {}
+}
