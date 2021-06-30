@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func goDotEnvVariable(key string) string {
+func loadEnvironmentVariable() {
 	path, _ := os.Getwd()
 
 	err := godotenv.Load(filepath.Join(path, ".env"))
@@ -23,12 +23,12 @@ func goDotEnvVariable(key string) string {
 	if err != nil {
 		log.Fatalf("Error %s loading .env file", err)
 	}
-
-	return os.Getenv(key)
 }
 
 func connectoToMongoDB() {
-	clientOptions := options.Client().ApplyURI("mongodb://mongodb:27017")
+	db_port := os.Getenv("KLEVER_MONGODB_PORT")
+
+	clientOptions := options.Client().ApplyURI("mongodb://mongodb:" + db_port)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
@@ -45,9 +45,11 @@ func connectoToMongoDB() {
 }
 
 func main() {
+	loadEnvironmentVariable()
+
 	connectoToMongoDB()
 
-	port := goDotEnvVariable("KLEVER_APPLICATION_PORT")
+	port := os.Getenv("KLEVER_APPLICATION_PORT")
 
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
