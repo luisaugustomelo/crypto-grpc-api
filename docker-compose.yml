@@ -13,10 +13,10 @@ services:
       - .:/app
     networks:
       - klever-network
-    # depends_on:
-    #   - mongodb
-    # links:
-    #   - mongodb
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
 
   # redis:
   #   restart: always
@@ -27,14 +27,14 @@ services:
   #   networks:
   #     - klever-network
 
-  # mongodb:
-  #   image: mongo:4.2.5
-  #   container_name: klever-mongodb
-  #   restart: always
-  #   ports:
-  #     - '27017:27017'
-  #   networks:
-  #     - klever-network
+  mongodb:
+    image: mongo:4.2.5
+    container_name: klever-mongodb
+    restart: always
+    ports:
+      - '${KLEVER_MONGODB_PORT}:27017'
+    networks:
+      - klever-network
 
 networks:
   klever-network:
