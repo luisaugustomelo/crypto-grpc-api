@@ -17,6 +17,8 @@ message Message {
     string body = 1;
 }
 
+// CRUD Cryptocurrency and list all
+
 message CreateCryptocurrencyResponse {
     Cryptocurrency crypto = 1;
 }
@@ -25,7 +27,83 @@ message CreateCryptocurrencyRequest {
     Cryptocurrency crypto = 1;
 }
 
+message UpdateCryptocurrencyRequest {
+    Cryptocurrency crypto = 1;
+}
+
+message UpdateCryptocurrencyResponse {
+    Cryptocurrency crypto = 1;
+}
+
+message DeleteCryptocurrencyRequest {
+    string id = 1;
+}
+
+message DeleteCryptocurrencyResponse {
+    bool status = 1;
+}
+
+message ReadCryptocurrencyRequest {
+    string id = 1;
+}
+
+message ReadCryptocurrencyResponse {
+    Cryptocurrency crypto = 1;
+}
+
+message ListAllCryptocurrenciesRequest {
+
+}
+
+message ListAllCryptocurrenciesResponse {
+    Cryptocurrency crypto = 1;
+}
+
+// Manage cryptocurrency vote
+
+message UpVoteCryptocurrencyRequest {
+    string id = 1;
+}
+
+message UpVoteCryptocurrencyResponse {
+    Cryptocurrency crypto = 1;
+}
+
+message DownVoteCryptocurrencyRequest {
+    string id = 1;
+}
+
+message DownVoteCryptocurrencyResponse {
+    Cryptocurrency crypto = 1;
+}
+
+message GetSumVotesRequest {
+    string id = 1;
+}
+
+message GetSumVotesResponse {
+    int64 votes = 1;
+}
+
+message GetSumVotesStreamRequest {
+    string id = 1;
+}
+
+message GetSumVotesStreamResponse {
+    int64 votes = 1;
+}
+
+
 service UpVoteService {
-    rpc UpVote(Message) returns (Message) {}
-    rpc CreateCrypto(CreateCryptocurrencyRequest) returns (CreateCryptocurrencyResponse) {}
+    rpc PingPong(Message) returns (Message) {}
+    rpc CreateCryptocurrency(CreateCryptocurrencyRequest) returns (CreateCryptocurrencyResponse) {}
+    rpc UpdateCryptocurrency(UpdateCryptocurrencyRequest) returns (UpdateCryptocurrencyResponse) {}
+    rpc DeleteCryptocurrency(DeleteCryptocurrencyRequest) returns (DeleteCryptocurrencyResponse) {}
+    rpc ReadCryptocurrencyById(ReadCryptocurrencyRequest) returns (ReadCryptocurrencyResponse) {}
+    rpc ListAllCriptocurrencies(ListAllCryptocurrenciesRequest) returns (ListAllCryptocurrenciesResponse) {}
+    rpc UpVoteCriptocurrency(UpVoteCryptocurrencyRequest) returns (UpVoteCryptocurrencyResponse) {}
+    rpc DownVoteCriptocurrency(DownVoteCryptocurrencyRequest) returns (DownVoteCryptocurrencyResponse) {}
+    rpc GetSumVotes(GetSumVotesRequest) returns (GetSumVotesResponse) {}
+    rpc GetSumVotesByStreamRequest(GetSumVotesStreamRequest) returns (GetSumVotesStreamResponse) {}
+
 }

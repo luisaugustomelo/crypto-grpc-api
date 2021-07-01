@@ -252,6 +252,749 @@ func (x *CreateCryptocurrencyRequest) GetCrypto() *Cryptocurrency {
 	return nil
 }
 
+type UpdateCryptocurrencyRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Cryptocurrency `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *UpdateCryptocurrencyRequest) Reset() {
+	*x = UpdateCryptocurrencyRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateCryptocurrencyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCryptocurrencyRequest) ProtoMessage() {}
+
+func (x *UpdateCryptocurrencyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCryptocurrencyRequest.ProtoReflect.Descriptor instead.
+func (*UpdateCryptocurrencyRequest) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateCryptocurrencyRequest) GetCrypto() *Cryptocurrency {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type UpdateCryptocurrencyResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Cryptocurrency `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *UpdateCryptocurrencyResponse) Reset() {
+	*x = UpdateCryptocurrencyResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateCryptocurrencyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCryptocurrencyResponse) ProtoMessage() {}
+
+func (x *UpdateCryptocurrencyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCryptocurrencyResponse.ProtoReflect.Descriptor instead.
+func (*UpdateCryptocurrencyResponse) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdateCryptocurrencyResponse) GetCrypto() *Cryptocurrency {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type DeleteCryptocurrencyRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *DeleteCryptocurrencyRequest) Reset() {
+	*x = DeleteCryptocurrencyRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCryptocurrencyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCryptocurrencyRequest) ProtoMessage() {}
+
+func (x *DeleteCryptocurrencyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCryptocurrencyRequest.ProtoReflect.Descriptor instead.
+func (*DeleteCryptocurrencyRequest) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DeleteCryptocurrencyRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteCryptocurrencyResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status bool `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (x *DeleteCryptocurrencyResponse) Reset() {
+	*x = DeleteCryptocurrencyResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCryptocurrencyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCryptocurrencyResponse) ProtoMessage() {}
+
+func (x *DeleteCryptocurrencyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCryptocurrencyResponse.ProtoReflect.Descriptor instead.
+func (*DeleteCryptocurrencyResponse) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DeleteCryptocurrencyResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+type ReadCryptocurrencyRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *ReadCryptocurrencyRequest) Reset() {
+	*x = ReadCryptocurrencyRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ReadCryptocurrencyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReadCryptocurrencyRequest) ProtoMessage() {}
+
+func (x *ReadCryptocurrencyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReadCryptocurrencyRequest.ProtoReflect.Descriptor instead.
+func (*ReadCryptocurrencyRequest) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ReadCryptocurrencyRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type ReadCryptocurrencyResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Cryptocurrency `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *ReadCryptocurrencyResponse) Reset() {
+	*x = ReadCryptocurrencyResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ReadCryptocurrencyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReadCryptocurrencyResponse) ProtoMessage() {}
+
+func (x *ReadCryptocurrencyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReadCryptocurrencyResponse.ProtoReflect.Descriptor instead.
+func (*ReadCryptocurrencyResponse) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ReadCryptocurrencyResponse) GetCrypto() *Cryptocurrency {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type ListAllCryptocurrenciesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListAllCryptocurrenciesRequest) Reset() {
+	*x = ListAllCryptocurrenciesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListAllCryptocurrenciesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAllCryptocurrenciesRequest) ProtoMessage() {}
+
+func (x *ListAllCryptocurrenciesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAllCryptocurrenciesRequest.ProtoReflect.Descriptor instead.
+func (*ListAllCryptocurrenciesRequest) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{10}
+}
+
+type ListAllCryptocurrenciesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Cryptocurrency `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *ListAllCryptocurrenciesResponse) Reset() {
+	*x = ListAllCryptocurrenciesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListAllCryptocurrenciesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAllCryptocurrenciesResponse) ProtoMessage() {}
+
+func (x *ListAllCryptocurrenciesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAllCryptocurrenciesResponse.ProtoReflect.Descriptor instead.
+func (*ListAllCryptocurrenciesResponse) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListAllCryptocurrenciesResponse) GetCrypto() *Cryptocurrency {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type UpVoteCryptocurrencyRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *UpVoteCryptocurrencyRequest) Reset() {
+	*x = UpVoteCryptocurrencyRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpVoteCryptocurrencyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpVoteCryptocurrencyRequest) ProtoMessage() {}
+
+func (x *UpVoteCryptocurrencyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpVoteCryptocurrencyRequest.ProtoReflect.Descriptor instead.
+func (*UpVoteCryptocurrencyRequest) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpVoteCryptocurrencyRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type UpVoteCryptocurrencyResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Cryptocurrency `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *UpVoteCryptocurrencyResponse) Reset() {
+	*x = UpVoteCryptocurrencyResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpVoteCryptocurrencyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpVoteCryptocurrencyResponse) ProtoMessage() {}
+
+func (x *UpVoteCryptocurrencyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpVoteCryptocurrencyResponse.ProtoReflect.Descriptor instead.
+func (*UpVoteCryptocurrencyResponse) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UpVoteCryptocurrencyResponse) GetCrypto() *Cryptocurrency {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type DownVoteCryptocurrencyRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *DownVoteCryptocurrencyRequest) Reset() {
+	*x = DownVoteCryptocurrencyRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DownVoteCryptocurrencyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DownVoteCryptocurrencyRequest) ProtoMessage() {}
+
+func (x *DownVoteCryptocurrencyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DownVoteCryptocurrencyRequest.ProtoReflect.Descriptor instead.
+func (*DownVoteCryptocurrencyRequest) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DownVoteCryptocurrencyRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DownVoteCryptocurrencyResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Cryptocurrency `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *DownVoteCryptocurrencyResponse) Reset() {
+	*x = DownVoteCryptocurrencyResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DownVoteCryptocurrencyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DownVoteCryptocurrencyResponse) ProtoMessage() {}
+
+func (x *DownVoteCryptocurrencyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DownVoteCryptocurrencyResponse.ProtoReflect.Descriptor instead.
+func (*DownVoteCryptocurrencyResponse) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *DownVoteCryptocurrencyResponse) GetCrypto() *Cryptocurrency {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type GetSumVotesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetSumVotesRequest) Reset() {
+	*x = GetSumVotesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSumVotesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSumVotesRequest) ProtoMessage() {}
+
+func (x *GetSumVotesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSumVotesRequest.ProtoReflect.Descriptor instead.
+func (*GetSumVotesRequest) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetSumVotesRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetSumVotesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Votes int64 `protobuf:"varint,1,opt,name=votes,proto3" json:"votes,omitempty"`
+}
+
+func (x *GetSumVotesResponse) Reset() {
+	*x = GetSumVotesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSumVotesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSumVotesResponse) ProtoMessage() {}
+
+func (x *GetSumVotesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSumVotesResponse.ProtoReflect.Descriptor instead.
+func (*GetSumVotesResponse) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetSumVotesResponse) GetVotes() int64 {
+	if x != nil {
+		return x.Votes
+	}
+	return 0
+}
+
+type GetSumVotesStreamRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetSumVotesStreamRequest) Reset() {
+	*x = GetSumVotesStreamRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSumVotesStreamRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSumVotesStreamRequest) ProtoMessage() {}
+
+func (x *GetSumVotesStreamRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSumVotesStreamRequest.ProtoReflect.Descriptor instead.
+func (*GetSumVotesStreamRequest) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetSumVotesStreamRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetSumVotesStreamResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Votes int64 `protobuf:"varint,1,opt,name=votes,proto3" json:"votes,omitempty"`
+}
+
+func (x *GetSumVotesStreamResponse) Reset() {
+	*x = GetSumVotesStreamResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_upvote_upvotesystem_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSumVotesStreamResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSumVotesStreamResponse) ProtoMessage() {}
+
+func (x *GetSumVotesStreamResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_upvote_upvotesystem_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSumVotesStreamResponse.ProtoReflect.Descriptor instead.
+func (*GetSumVotesStreamResponse) Descriptor() ([]byte, []int) {
+	return file_upvote_upvotesystem_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetSumVotesStreamResponse) GetVotes() int64 {
+	if x != nil {
+		return x.Votes
+	}
+	return 0
+}
+
 var File_upvote_upvotesystem_proto protoreflect.FileDescriptor
 
 var file_upvote_upvotesystem_proto_rawDesc = []byte{
@@ -279,18 +1022,127 @@ var file_upvote_upvotesystem_proto_rawDesc = []byte{
 	0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2e, 0x0a, 0x06, 0x63, 0x72,
 	0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x75, 0x70, 0x76,
 	0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e,
-	0x63, 0x79, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x32, 0x9a, 0x01, 0x0a, 0x0d, 0x55,
-	0x70, 0x56, 0x6f, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x2c, 0x0a, 0x06,
-	0x55, 0x70, 0x56, 0x6f, 0x74, 0x65, 0x12, 0x0f, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e,
-	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0f, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65,
-	0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x12, 0x5b, 0x0a, 0x0c, 0x43, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x12, 0x23, 0x2e, 0x75, 0x70, 0x76,
-	0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f,
-	0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x24, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43,
-	0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x09, 0x5a, 0x07, 0x73, 0x79, 0x73, 0x74, 0x65,
-	0x6d, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x63, 0x79, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22, 0x4d, 0x0a, 0x1b, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e,
+	0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2e, 0x0a, 0x06, 0x63, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x75, 0x70, 0x76, 0x6f,
+	0x74, 0x65, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63,
+	0x79, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22, 0x4e, 0x0a, 0x1c, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63,
+	0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2e, 0x0a, 0x06, 0x63, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x75, 0x70, 0x76, 0x6f,
+	0x74, 0x65, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63,
+	0x79, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22, 0x2d, 0x0a, 0x1b, 0x44, 0x65, 0x6c,
+	0x65, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63,
+	0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x36, 0x0a, 0x1c, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x22, 0x2b, 0x0a, 0x19, 0x52, 0x65, 0x61, 0x64, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75,
+	0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x4c, 0x0a,
+	0x1a, 0x52, 0x65, 0x61, 0x64, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65,
+	0x6e, 0x63, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2e, 0x0a, 0x06, 0x63,
+	0x72, 0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x75, 0x70,
+	0x76, 0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65,
+	0x6e, 0x63, 0x79, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22, 0x20, 0x0a, 0x1e, 0x4c,
+	0x69, 0x73, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72,
+	0x65, 0x6e, 0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x51, 0x0a,
+	0x1f, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75,
+	0x72, 0x72, 0x65, 0x6e, 0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x2e, 0x0a, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x16, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f,
+	0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f,
+	0x22, 0x2d, 0x0a, 0x1b, 0x55, 0x70, 0x56, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f,
+	0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22,
+	0x4e, 0x0a, 0x1c, 0x55, 0x70, 0x56, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63,
+	0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x2e, 0x0a, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x16, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63,
+	0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22,
+	0x2f, 0x0a, 0x1d, 0x44, 0x6f, 0x77, 0x6e, 0x56, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74,
+	0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
+	0x22, 0x50, 0x0a, 0x1e, 0x44, 0x6f, 0x77, 0x6e, 0x56, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x2e, 0x0a, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x16, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x22, 0x24, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x2b, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x53,
+	0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x14, 0x0a, 0x05, 0x76, 0x6f, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05,
+	0x76, 0x6f, 0x74, 0x65, 0x73, 0x22, 0x2a, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56,
+	0x6f, 0x74, 0x65, 0x73, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69,
+	0x64, 0x22, 0x31, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73,
+	0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14,
+	0x0a, 0x05, 0x76, 0x6f, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x76,
+	0x6f, 0x74, 0x65, 0x73, 0x32, 0xbe, 0x07, 0x0a, 0x0d, 0x55, 0x70, 0x56, 0x6f, 0x74, 0x65, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x2e, 0x0a, 0x08, 0x50, 0x69, 0x6e, 0x67, 0x50, 0x6f,
+	0x6e, 0x67, 0x12, 0x0f, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x1a, 0x0f, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x12, 0x63, 0x0a, 0x14, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x12, 0x23,
+	0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x72,
+	0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63,
+	0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x63, 0x0a, 0x14, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65,
+	0x6e, 0x63, 0x79, 0x12, 0x23, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63,
+	0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74,
+	0x65, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75,
+	0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x12, 0x63, 0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f,
+	0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x12, 0x23, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74,
+	0x65, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75,
+	0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e,
+	0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x61, 0x0a, 0x16, 0x52, 0x65, 0x61, 0x64, 0x43, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x42, 0x79, 0x49, 0x64, 0x12,
+	0x21, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x52, 0x65, 0x61, 0x64, 0x43, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x22, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x52, 0x65, 0x61, 0x64,
+	0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x6c, 0x0a, 0x17, 0x4c, 0x69, 0x73, 0x74,
+	0x41, 0x6c, 0x6c, 0x43, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63,
+	0x69, 0x65, 0x73, 0x12, 0x26, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x4c, 0x69, 0x73,
+	0x74, 0x41, 0x6c, 0x6c, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e,
+	0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x75, 0x70,
+	0x76, 0x6f, 0x74, 0x65, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x63, 0x0a, 0x14, 0x55, 0x70, 0x56, 0x6f, 0x74, 0x65,
+	0x43, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x12, 0x23,
+	0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x55, 0x70, 0x56, 0x6f, 0x74, 0x65, 0x43, 0x72,
+	0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x55, 0x70, 0x56,
+	0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63,
+	0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x69, 0x0a, 0x16, 0x44,
+	0x6f, 0x77, 0x6e, 0x56, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72,
+	0x72, 0x65, 0x6e, 0x63, 0x79, 0x12, 0x25, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x44,
+	0x6f, 0x77, 0x6e, 0x56, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72,
+	0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x75,
+	0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x44, 0x6f, 0x77, 0x6e, 0x56, 0x6f, 0x74, 0x65, 0x43, 0x72,
+	0x79, 0x70, 0x74, 0x6f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x48, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d,
+	0x56, 0x6f, 0x74, 0x65, 0x73, 0x12, 0x1a, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x47,
+	0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x1b, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75,
+	0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x12, 0x63, 0x0a, 0x1a, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x42,
+	0x79, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20,
+	0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f,
+	0x74, 0x65, 0x73, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x21, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d,
+	0x56, 0x6f, 0x74, 0x65, 0x73, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x09, 0x5a, 0x07, 0x73, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x2f,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -305,25 +1157,63 @@ func file_upvote_upvotesystem_proto_rawDescGZIP() []byte {
 	return file_upvote_upvotesystem_proto_rawDescData
 }
 
-var file_upvote_upvotesystem_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_upvote_upvotesystem_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_upvote_upvotesystem_proto_goTypes = []interface{}{
-	(*Cryptocurrency)(nil),               // 0: upvote.Cryptocurrency
-	(*Message)(nil),                      // 1: upvote.Message
-	(*CreateCryptocurrencyResponse)(nil), // 2: upvote.CreateCryptocurrencyResponse
-	(*CreateCryptocurrencyRequest)(nil),  // 3: upvote.CreateCryptocurrencyRequest
+	(*Cryptocurrency)(nil),                  // 0: upvote.Cryptocurrency
+	(*Message)(nil),                         // 1: upvote.Message
+	(*CreateCryptocurrencyResponse)(nil),    // 2: upvote.CreateCryptocurrencyResponse
+	(*CreateCryptocurrencyRequest)(nil),     // 3: upvote.CreateCryptocurrencyRequest
+	(*UpdateCryptocurrencyRequest)(nil),     // 4: upvote.UpdateCryptocurrencyRequest
+	(*UpdateCryptocurrencyResponse)(nil),    // 5: upvote.UpdateCryptocurrencyResponse
+	(*DeleteCryptocurrencyRequest)(nil),     // 6: upvote.DeleteCryptocurrencyRequest
+	(*DeleteCryptocurrencyResponse)(nil),    // 7: upvote.DeleteCryptocurrencyResponse
+	(*ReadCryptocurrencyRequest)(nil),       // 8: upvote.ReadCryptocurrencyRequest
+	(*ReadCryptocurrencyResponse)(nil),      // 9: upvote.ReadCryptocurrencyResponse
+	(*ListAllCryptocurrenciesRequest)(nil),  // 10: upvote.ListAllCryptocurrenciesRequest
+	(*ListAllCryptocurrenciesResponse)(nil), // 11: upvote.ListAllCryptocurrenciesResponse
+	(*UpVoteCryptocurrencyRequest)(nil),     // 12: upvote.UpVoteCryptocurrencyRequest
+	(*UpVoteCryptocurrencyResponse)(nil),    // 13: upvote.UpVoteCryptocurrencyResponse
+	(*DownVoteCryptocurrencyRequest)(nil),   // 14: upvote.DownVoteCryptocurrencyRequest
+	(*DownVoteCryptocurrencyResponse)(nil),  // 15: upvote.DownVoteCryptocurrencyResponse
+	(*GetSumVotesRequest)(nil),              // 16: upvote.GetSumVotesRequest
+	(*GetSumVotesResponse)(nil),             // 17: upvote.GetSumVotesResponse
+	(*GetSumVotesStreamRequest)(nil),        // 18: upvote.GetSumVotesStreamRequest
+	(*GetSumVotesStreamResponse)(nil),       // 19: upvote.GetSumVotesStreamResponse
 }
 var file_upvote_upvotesystem_proto_depIdxs = []int32{
-	0, // 0: upvote.CreateCryptocurrencyResponse.crypto:type_name -> upvote.Cryptocurrency
-	0, // 1: upvote.CreateCryptocurrencyRequest.crypto:type_name -> upvote.Cryptocurrency
-	1, // 2: upvote.UpVoteService.UpVote:input_type -> upvote.Message
-	3, // 3: upvote.UpVoteService.CreateCrypto:input_type -> upvote.CreateCryptocurrencyRequest
-	1, // 4: upvote.UpVoteService.UpVote:output_type -> upvote.Message
-	2, // 5: upvote.UpVoteService.CreateCrypto:output_type -> upvote.CreateCryptocurrencyResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0,  // 0: upvote.CreateCryptocurrencyResponse.crypto:type_name -> upvote.Cryptocurrency
+	0,  // 1: upvote.CreateCryptocurrencyRequest.crypto:type_name -> upvote.Cryptocurrency
+	0,  // 2: upvote.UpdateCryptocurrencyRequest.crypto:type_name -> upvote.Cryptocurrency
+	0,  // 3: upvote.UpdateCryptocurrencyResponse.crypto:type_name -> upvote.Cryptocurrency
+	0,  // 4: upvote.ReadCryptocurrencyResponse.crypto:type_name -> upvote.Cryptocurrency
+	0,  // 5: upvote.ListAllCryptocurrenciesResponse.crypto:type_name -> upvote.Cryptocurrency
+	0,  // 6: upvote.UpVoteCryptocurrencyResponse.crypto:type_name -> upvote.Cryptocurrency
+	0,  // 7: upvote.DownVoteCryptocurrencyResponse.crypto:type_name -> upvote.Cryptocurrency
+	1,  // 8: upvote.UpVoteService.PingPong:input_type -> upvote.Message
+	3,  // 9: upvote.UpVoteService.CreateCryptocurrency:input_type -> upvote.CreateCryptocurrencyRequest
+	4,  // 10: upvote.UpVoteService.UpdateCryptocurrency:input_type -> upvote.UpdateCryptocurrencyRequest
+	6,  // 11: upvote.UpVoteService.DeleteCryptocurrency:input_type -> upvote.DeleteCryptocurrencyRequest
+	8,  // 12: upvote.UpVoteService.ReadCryptocurrencyById:input_type -> upvote.ReadCryptocurrencyRequest
+	10, // 13: upvote.UpVoteService.ListAllCriptocurrencies:input_type -> upvote.ListAllCryptocurrenciesRequest
+	12, // 14: upvote.UpVoteService.UpVoteCriptocurrency:input_type -> upvote.UpVoteCryptocurrencyRequest
+	14, // 15: upvote.UpVoteService.DownVoteCriptocurrency:input_type -> upvote.DownVoteCryptocurrencyRequest
+	16, // 16: upvote.UpVoteService.GetSumVotes:input_type -> upvote.GetSumVotesRequest
+	18, // 17: upvote.UpVoteService.GetSumVotesByStreamRequest:input_type -> upvote.GetSumVotesStreamRequest
+	1,  // 18: upvote.UpVoteService.PingPong:output_type -> upvote.Message
+	2,  // 19: upvote.UpVoteService.CreateCryptocurrency:output_type -> upvote.CreateCryptocurrencyResponse
+	5,  // 20: upvote.UpVoteService.UpdateCryptocurrency:output_type -> upvote.UpdateCryptocurrencyResponse
+	7,  // 21: upvote.UpVoteService.DeleteCryptocurrency:output_type -> upvote.DeleteCryptocurrencyResponse
+	9,  // 22: upvote.UpVoteService.ReadCryptocurrencyById:output_type -> upvote.ReadCryptocurrencyResponse
+	11, // 23: upvote.UpVoteService.ListAllCriptocurrencies:output_type -> upvote.ListAllCryptocurrenciesResponse
+	13, // 24: upvote.UpVoteService.UpVoteCriptocurrency:output_type -> upvote.UpVoteCryptocurrencyResponse
+	15, // 25: upvote.UpVoteService.DownVoteCriptocurrency:output_type -> upvote.DownVoteCryptocurrencyResponse
+	17, // 26: upvote.UpVoteService.GetSumVotes:output_type -> upvote.GetSumVotesResponse
+	19, // 27: upvote.UpVoteService.GetSumVotesByStreamRequest:output_type -> upvote.GetSumVotesStreamResponse
+	18, // [18:28] is the sub-list for method output_type
+	8,  // [8:18] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_upvote_upvotesystem_proto_init() }
@@ -380,6 +1270,198 @@ func file_upvote_upvotesystem_proto_init() {
 				return nil
 			}
 		}
+		file_upvote_upvotesystem_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateCryptocurrencyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateCryptocurrencyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteCryptocurrencyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteCryptocurrencyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ReadCryptocurrencyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ReadCryptocurrencyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListAllCryptocurrenciesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListAllCryptocurrenciesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpVoteCryptocurrencyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpVoteCryptocurrencyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DownVoteCryptocurrencyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DownVoteCryptocurrencyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSumVotesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSumVotesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSumVotesStreamRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_upvote_upvotesystem_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSumVotesStreamResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -387,7 +1469,7 @@ func file_upvote_upvotesystem_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_upvote_upvotesystem_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -413,8 +1495,16 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UpVoteServiceClient interface {
-	UpVote(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
-	CreateCrypto(ctx context.Context, in *CreateCryptocurrencyRequest, opts ...grpc.CallOption) (*CreateCryptocurrencyResponse, error)
+	PingPong(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	CreateCryptocurrency(ctx context.Context, in *CreateCryptocurrencyRequest, opts ...grpc.CallOption) (*CreateCryptocurrencyResponse, error)
+	UpdateCryptocurrency(ctx context.Context, in *UpdateCryptocurrencyRequest, opts ...grpc.CallOption) (*UpdateCryptocurrencyResponse, error)
+	DeleteCryptocurrency(ctx context.Context, in *DeleteCryptocurrencyRequest, opts ...grpc.CallOption) (*DeleteCryptocurrencyResponse, error)
+	ReadCryptocurrencyById(ctx context.Context, in *ReadCryptocurrencyRequest, opts ...grpc.CallOption) (*ReadCryptocurrencyResponse, error)
+	ListAllCriptocurrencies(ctx context.Context, in *ListAllCryptocurrenciesRequest, opts ...grpc.CallOption) (*ListAllCryptocurrenciesResponse, error)
+	UpVoteCriptocurrency(ctx context.Context, in *UpVoteCryptocurrencyRequest, opts ...grpc.CallOption) (*UpVoteCryptocurrencyResponse, error)
+	DownVoteCriptocurrency(ctx context.Context, in *DownVoteCryptocurrencyRequest, opts ...grpc.CallOption) (*DownVoteCryptocurrencyResponse, error)
+	GetSumVotes(ctx context.Context, in *GetSumVotesRequest, opts ...grpc.CallOption) (*GetSumVotesResponse, error)
+	GetSumVotesByStreamRequest(ctx context.Context, in *GetSumVotesStreamRequest, opts ...grpc.CallOption) (*GetSumVotesStreamResponse, error)
 }
 
 type upVoteServiceClient struct {
@@ -425,18 +1515,90 @@ func NewUpVoteServiceClient(cc grpc.ClientConnInterface) UpVoteServiceClient {
 	return &upVoteServiceClient{cc}
 }
 
-func (c *upVoteServiceClient) UpVote(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
+func (c *upVoteServiceClient) PingPong(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
 	out := new(Message)
-	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/UpVote", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/PingPong", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *upVoteServiceClient) CreateCrypto(ctx context.Context, in *CreateCryptocurrencyRequest, opts ...grpc.CallOption) (*CreateCryptocurrencyResponse, error) {
+func (c *upVoteServiceClient) CreateCryptocurrency(ctx context.Context, in *CreateCryptocurrencyRequest, opts ...grpc.CallOption) (*CreateCryptocurrencyResponse, error) {
 	out := new(CreateCryptocurrencyResponse)
-	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/CreateCrypto", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/CreateCryptocurrency", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upVoteServiceClient) UpdateCryptocurrency(ctx context.Context, in *UpdateCryptocurrencyRequest, opts ...grpc.CallOption) (*UpdateCryptocurrencyResponse, error) {
+	out := new(UpdateCryptocurrencyResponse)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/UpdateCryptocurrency", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upVoteServiceClient) DeleteCryptocurrency(ctx context.Context, in *DeleteCryptocurrencyRequest, opts ...grpc.CallOption) (*DeleteCryptocurrencyResponse, error) {
+	out := new(DeleteCryptocurrencyResponse)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/DeleteCryptocurrency", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upVoteServiceClient) ReadCryptocurrencyById(ctx context.Context, in *ReadCryptocurrencyRequest, opts ...grpc.CallOption) (*ReadCryptocurrencyResponse, error) {
+	out := new(ReadCryptocurrencyResponse)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/ReadCryptocurrencyById", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upVoteServiceClient) ListAllCriptocurrencies(ctx context.Context, in *ListAllCryptocurrenciesRequest, opts ...grpc.CallOption) (*ListAllCryptocurrenciesResponse, error) {
+	out := new(ListAllCryptocurrenciesResponse)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/ListAllCriptocurrencies", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upVoteServiceClient) UpVoteCriptocurrency(ctx context.Context, in *UpVoteCryptocurrencyRequest, opts ...grpc.CallOption) (*UpVoteCryptocurrencyResponse, error) {
+	out := new(UpVoteCryptocurrencyResponse)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/UpVoteCriptocurrency", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upVoteServiceClient) DownVoteCriptocurrency(ctx context.Context, in *DownVoteCryptocurrencyRequest, opts ...grpc.CallOption) (*DownVoteCryptocurrencyResponse, error) {
+	out := new(DownVoteCryptocurrencyResponse)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/DownVoteCriptocurrency", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upVoteServiceClient) GetSumVotes(ctx context.Context, in *GetSumVotesRequest, opts ...grpc.CallOption) (*GetSumVotesResponse, error) {
+	out := new(GetSumVotesResponse)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/GetSumVotes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upVoteServiceClient) GetSumVotesByStreamRequest(ctx context.Context, in *GetSumVotesStreamRequest, opts ...grpc.CallOption) (*GetSumVotesStreamResponse, error) {
+	out := new(GetSumVotesStreamResponse)
+	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/GetSumVotesByStreamRequest", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -445,57 +1607,233 @@ func (c *upVoteServiceClient) CreateCrypto(ctx context.Context, in *CreateCrypto
 
 // UpVoteServiceServer is the server API for UpVoteService service.
 type UpVoteServiceServer interface {
-	UpVote(context.Context, *Message) (*Message, error)
-	CreateCrypto(context.Context, *CreateCryptocurrencyRequest) (*CreateCryptocurrencyResponse, error)
+	PingPong(context.Context, *Message) (*Message, error)
+	CreateCryptocurrency(context.Context, *CreateCryptocurrencyRequest) (*CreateCryptocurrencyResponse, error)
+	UpdateCryptocurrency(context.Context, *UpdateCryptocurrencyRequest) (*UpdateCryptocurrencyResponse, error)
+	DeleteCryptocurrency(context.Context, *DeleteCryptocurrencyRequest) (*DeleteCryptocurrencyResponse, error)
+	ReadCryptocurrencyById(context.Context, *ReadCryptocurrencyRequest) (*ReadCryptocurrencyResponse, error)
+	ListAllCriptocurrencies(context.Context, *ListAllCryptocurrenciesRequest) (*ListAllCryptocurrenciesResponse, error)
+	UpVoteCriptocurrency(context.Context, *UpVoteCryptocurrencyRequest) (*UpVoteCryptocurrencyResponse, error)
+	DownVoteCriptocurrency(context.Context, *DownVoteCryptocurrencyRequest) (*DownVoteCryptocurrencyResponse, error)
+	GetSumVotes(context.Context, *GetSumVotesRequest) (*GetSumVotesResponse, error)
+	GetSumVotesByStreamRequest(context.Context, *GetSumVotesStreamRequest) (*GetSumVotesStreamResponse, error)
 }
 
 // UnimplementedUpVoteServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedUpVoteServiceServer struct {
 }
 
-func (*UnimplementedUpVoteServiceServer) UpVote(context.Context, *Message) (*Message, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpVote not implemented")
+func (*UnimplementedUpVoteServiceServer) PingPong(context.Context, *Message) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PingPong not implemented")
 }
-func (*UnimplementedUpVoteServiceServer) CreateCrypto(context.Context, *CreateCryptocurrencyRequest) (*CreateCryptocurrencyResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateCrypto not implemented")
+func (*UnimplementedUpVoteServiceServer) CreateCryptocurrency(context.Context, *CreateCryptocurrencyRequest) (*CreateCryptocurrencyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCryptocurrency not implemented")
+}
+func (*UnimplementedUpVoteServiceServer) UpdateCryptocurrency(context.Context, *UpdateCryptocurrencyRequest) (*UpdateCryptocurrencyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCryptocurrency not implemented")
+}
+func (*UnimplementedUpVoteServiceServer) DeleteCryptocurrency(context.Context, *DeleteCryptocurrencyRequest) (*DeleteCryptocurrencyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCryptocurrency not implemented")
+}
+func (*UnimplementedUpVoteServiceServer) ReadCryptocurrencyById(context.Context, *ReadCryptocurrencyRequest) (*ReadCryptocurrencyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadCryptocurrencyById not implemented")
+}
+func (*UnimplementedUpVoteServiceServer) ListAllCriptocurrencies(context.Context, *ListAllCryptocurrenciesRequest) (*ListAllCryptocurrenciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAllCriptocurrencies not implemented")
+}
+func (*UnimplementedUpVoteServiceServer) UpVoteCriptocurrency(context.Context, *UpVoteCryptocurrencyRequest) (*UpVoteCryptocurrencyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpVoteCriptocurrency not implemented")
+}
+func (*UnimplementedUpVoteServiceServer) DownVoteCriptocurrency(context.Context, *DownVoteCryptocurrencyRequest) (*DownVoteCryptocurrencyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownVoteCriptocurrency not implemented")
+}
+func (*UnimplementedUpVoteServiceServer) GetSumVotes(context.Context, *GetSumVotesRequest) (*GetSumVotesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSumVotes not implemented")
+}
+func (*UnimplementedUpVoteServiceServer) GetSumVotesByStreamRequest(context.Context, *GetSumVotesStreamRequest) (*GetSumVotesStreamResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSumVotesByStreamRequest not implemented")
 }
 
 func RegisterUpVoteServiceServer(s *grpc.Server, srv UpVoteServiceServer) {
 	s.RegisterService(&_UpVoteService_serviceDesc, srv)
 }
 
-func _UpVoteService_UpVote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UpVoteService_PingPong_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Message)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UpVoteServiceServer).UpVote(ctx, in)
+		return srv.(UpVoteServiceServer).PingPong(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/upvote.UpVoteService/UpVote",
+		FullMethod: "/upvote.UpVoteService/PingPong",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UpVoteServiceServer).UpVote(ctx, req.(*Message))
+		return srv.(UpVoteServiceServer).PingPong(ctx, req.(*Message))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UpVoteService_CreateCrypto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UpVoteService_CreateCryptocurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateCryptocurrencyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UpVoteServiceServer).CreateCrypto(ctx, in)
+		return srv.(UpVoteServiceServer).CreateCryptocurrency(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/upvote.UpVoteService/CreateCrypto",
+		FullMethod: "/upvote.UpVoteService/CreateCryptocurrency",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UpVoteServiceServer).CreateCrypto(ctx, req.(*CreateCryptocurrencyRequest))
+		return srv.(UpVoteServiceServer).CreateCryptocurrency(ctx, req.(*CreateCryptocurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpVoteService_UpdateCryptocurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCryptocurrencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpVoteServiceServer).UpdateCryptocurrency(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.UpVoteService/UpdateCryptocurrency",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpVoteServiceServer).UpdateCryptocurrency(ctx, req.(*UpdateCryptocurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpVoteService_DeleteCryptocurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCryptocurrencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpVoteServiceServer).DeleteCryptocurrency(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.UpVoteService/DeleteCryptocurrency",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpVoteServiceServer).DeleteCryptocurrency(ctx, req.(*DeleteCryptocurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpVoteService_ReadCryptocurrencyById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadCryptocurrencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpVoteServiceServer).ReadCryptocurrencyById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.UpVoteService/ReadCryptocurrencyById",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpVoteServiceServer).ReadCryptocurrencyById(ctx, req.(*ReadCryptocurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpVoteService_ListAllCriptocurrencies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAllCryptocurrenciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpVoteServiceServer).ListAllCriptocurrencies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.UpVoteService/ListAllCriptocurrencies",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpVoteServiceServer).ListAllCriptocurrencies(ctx, req.(*ListAllCryptocurrenciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpVoteService_UpVoteCriptocurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpVoteCryptocurrencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpVoteServiceServer).UpVoteCriptocurrency(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.UpVoteService/UpVoteCriptocurrency",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpVoteServiceServer).UpVoteCriptocurrency(ctx, req.(*UpVoteCryptocurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpVoteService_DownVoteCriptocurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownVoteCryptocurrencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpVoteServiceServer).DownVoteCriptocurrency(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.UpVoteService/DownVoteCriptocurrency",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpVoteServiceServer).DownVoteCriptocurrency(ctx, req.(*DownVoteCryptocurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpVoteService_GetSumVotes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSumVotesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpVoteServiceServer).GetSumVotes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.UpVoteService/GetSumVotes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpVoteServiceServer).GetSumVotes(ctx, req.(*GetSumVotesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpVoteService_GetSumVotesByStreamRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSumVotesStreamRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpVoteServiceServer).GetSumVotesByStreamRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.UpVoteService/GetSumVotesByStreamRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpVoteServiceServer).GetSumVotesByStreamRequest(ctx, req.(*GetSumVotesStreamRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -505,12 +1843,44 @@ var _UpVoteService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*UpVoteServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "UpVote",
-			Handler:    _UpVoteService_UpVote_Handler,
+			MethodName: "PingPong",
+			Handler:    _UpVoteService_PingPong_Handler,
 		},
 		{
-			MethodName: "CreateCrypto",
-			Handler:    _UpVoteService_CreateCrypto_Handler,
+			MethodName: "CreateCryptocurrency",
+			Handler:    _UpVoteService_CreateCryptocurrency_Handler,
+		},
+		{
+			MethodName: "UpdateCryptocurrency",
+			Handler:    _UpVoteService_UpdateCryptocurrency_Handler,
+		},
+		{
+			MethodName: "DeleteCryptocurrency",
+			Handler:    _UpVoteService_DeleteCryptocurrency_Handler,
+		},
+		{
+			MethodName: "ReadCryptocurrencyById",
+			Handler:    _UpVoteService_ReadCryptocurrencyById_Handler,
+		},
+		{
+			MethodName: "ListAllCriptocurrencies",
+			Handler:    _UpVoteService_ListAllCriptocurrencies_Handler,
+		},
+		{
+			MethodName: "UpVoteCriptocurrency",
+			Handler:    _UpVoteService_UpVoteCriptocurrency_Handler,
+		},
+		{
+			MethodName: "DownVoteCriptocurrency",
+			Handler:    _UpVoteService_DownVoteCriptocurrency_Handler,
+		},
+		{
+			MethodName: "GetSumVotes",
+			Handler:    _UpVoteService_GetSumVotes_Handler,
+		},
+		{
+			MethodName: "GetSumVotesByStreamRequest",
+			Handler:    _UpVoteService_GetSumVotesByStreamRequest_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

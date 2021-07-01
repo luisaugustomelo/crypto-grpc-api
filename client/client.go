@@ -25,7 +25,7 @@ func main() {
 		Body: "Hello from the client!",
 	}
 
-	response, err := c.UpVote(context.Background(), &message)
+	response, err := c.PingPong(context.Background(), &message)
 	if err != nil {
 		log.Fatalf("Error when calling UpVote: %s", err)
 	}
