@@ -1081,7 +1081,7 @@ var file_upvote_upvotesystem_proto_rawDesc = []byte{
 	0x64, 0x22, 0x31, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73,
 	0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14,
 	0x0a, 0x05, 0x76, 0x6f, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x76,
-	0x6f, 0x74, 0x65, 0x73, 0x32, 0xbe, 0x07, 0x0a, 0x0d, 0x55, 0x70, 0x56, 0x6f, 0x74, 0x65, 0x53,
+	0x6f, 0x74, 0x65, 0x73, 0x32, 0xb9, 0x07, 0x0a, 0x0d, 0x55, 0x70, 0x56, 0x6f, 0x74, 0x65, 0x53,
 	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x2e, 0x0a, 0x08, 0x50, 0x69, 0x6e, 0x67, 0x50, 0x6f,
 	0x6e, 0x67, 0x12, 0x0f, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x4d, 0x65, 0x73, 0x73,
 	0x61, 0x67, 0x65, 0x1a, 0x0f, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x4d, 0x65, 0x73,
@@ -1135,14 +1135,14 @@ var file_upvote_upvotesystem_proto_rawDesc = []byte{
 	0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x1a, 0x1b, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75,
 	0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
-	0x12, 0x63, 0x0a, 0x1a, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x42,
-	0x79, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20,
-	0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f,
-	0x74, 0x65, 0x73, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x21, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d,
-	0x56, 0x6f, 0x74, 0x65, 0x73, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x09, 0x5a, 0x07, 0x73, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x2f,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x12, 0x5e, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x42,
+	0x79, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x12, 0x20, 0x2e, 0x75, 0x70, 0x76, 0x6f, 0x74, 0x65,
+	0x2e, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x53, 0x74, 0x72, 0x65,
+	0x61, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x75, 0x70, 0x76, 0x6f,
+	0x74, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75, 0x6d, 0x56, 0x6f, 0x74, 0x65, 0x73, 0x53, 0x74,
+	0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x30, 0x01,
+	0x42, 0x09, 0x5a, 0x07, 0x73, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1198,7 +1198,7 @@ var file_upvote_upvotesystem_proto_depIdxs = []int32{
 	12, // 14: upvote.UpVoteService.UpVoteCriptocurrency:input_type -> upvote.UpVoteCryptocurrencyRequest
 	14, // 15: upvote.UpVoteService.DownVoteCriptocurrency:input_type -> upvote.DownVoteCryptocurrencyRequest
 	16, // 16: upvote.UpVoteService.GetSumVotes:input_type -> upvote.GetSumVotesRequest
-	18, // 17: upvote.UpVoteService.GetSumVotesByStreamRequest:input_type -> upvote.GetSumVotesStreamRequest
+	18, // 17: upvote.UpVoteService.GetSumVotesByStream:input_type -> upvote.GetSumVotesStreamRequest
 	1,  // 18: upvote.UpVoteService.PingPong:output_type -> upvote.Message
 	2,  // 19: upvote.UpVoteService.CreateCryptocurrency:output_type -> upvote.CreateCryptocurrencyResponse
 	5,  // 20: upvote.UpVoteService.UpdateCryptocurrency:output_type -> upvote.UpdateCryptocurrencyResponse
@@ -1208,7 +1208,7 @@ var file_upvote_upvotesystem_proto_depIdxs = []int32{
 	13, // 24: upvote.UpVoteService.UpVoteCriptocurrency:output_type -> upvote.UpVoteCryptocurrencyResponse
 	15, // 25: upvote.UpVoteService.DownVoteCriptocurrency:output_type -> upvote.DownVoteCryptocurrencyResponse
 	17, // 26: upvote.UpVoteService.GetSumVotes:output_type -> upvote.GetSumVotesResponse
-	19, // 27: upvote.UpVoteService.GetSumVotesByStreamRequest:output_type -> upvote.GetSumVotesStreamResponse
+	19, // 27: upvote.UpVoteService.GetSumVotesByStream:output_type -> upvote.GetSumVotesStreamResponse
 	18, // [18:28] is the sub-list for method output_type
 	8,  // [8:18] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -1504,7 +1504,7 @@ type UpVoteServiceClient interface {
 	UpVoteCriptocurrency(ctx context.Context, in *UpVoteCryptocurrencyRequest, opts ...grpc.CallOption) (*UpVoteCryptocurrencyResponse, error)
 	DownVoteCriptocurrency(ctx context.Context, in *DownVoteCryptocurrencyRequest, opts ...grpc.CallOption) (*DownVoteCryptocurrencyResponse, error)
 	GetSumVotes(ctx context.Context, in *GetSumVotesRequest, opts ...grpc.CallOption) (*GetSumVotesResponse, error)
-	GetSumVotesByStreamRequest(ctx context.Context, in *GetSumVotesStreamRequest, opts ...grpc.CallOption) (*GetSumVotesStreamResponse, error)
+	GetSumVotesByStream(ctx context.Context, in *GetSumVotesStreamRequest, opts ...grpc.CallOption) (UpVoteService_GetSumVotesByStreamClient, error)
 }
 
 type upVoteServiceClient struct {
@@ -1596,13 +1596,36 @@ func (c *upVoteServiceClient) GetSumVotes(ctx context.Context, in *GetSumVotesRe
 	return out, nil
 }
 
-func (c *upVoteServiceClient) GetSumVotesByStreamRequest(ctx context.Context, in *GetSumVotesStreamRequest, opts ...grpc.CallOption) (*GetSumVotesStreamResponse, error) {
-	out := new(GetSumVotesStreamResponse)
-	err := c.cc.Invoke(ctx, "/upvote.UpVoteService/GetSumVotesByStreamRequest", in, out, opts...)
+func (c *upVoteServiceClient) GetSumVotesByStream(ctx context.Context, in *GetSumVotesStreamRequest, opts ...grpc.CallOption) (UpVoteService_GetSumVotesByStreamClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_UpVoteService_serviceDesc.Streams[0], "/upvote.UpVoteService/GetSumVotesByStream", opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &upVoteServiceGetSumVotesByStreamClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type UpVoteService_GetSumVotesByStreamClient interface {
+	Recv() (*GetSumVotesStreamResponse, error)
+	grpc.ClientStream
+}
+
+type upVoteServiceGetSumVotesByStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *upVoteServiceGetSumVotesByStreamClient) Recv() (*GetSumVotesStreamResponse, error) {
+	m := new(GetSumVotesStreamResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // UpVoteServiceServer is the server API for UpVoteService service.
@@ -1616,7 +1639,7 @@ type UpVoteServiceServer interface {
 	UpVoteCriptocurrency(context.Context, *UpVoteCryptocurrencyRequest) (*UpVoteCryptocurrencyResponse, error)
 	DownVoteCriptocurrency(context.Context, *DownVoteCryptocurrencyRequest) (*DownVoteCryptocurrencyResponse, error)
 	GetSumVotes(context.Context, *GetSumVotesRequest) (*GetSumVotesResponse, error)
-	GetSumVotesByStreamRequest(context.Context, *GetSumVotesStreamRequest) (*GetSumVotesStreamResponse, error)
+	GetSumVotesByStream(*GetSumVotesStreamRequest, UpVoteService_GetSumVotesByStreamServer) error
 }
 
 // UnimplementedUpVoteServiceServer can be embedded to have forward compatible implementations.
@@ -1650,8 +1673,8 @@ func (*UnimplementedUpVoteServiceServer) DownVoteCriptocurrency(context.Context,
 func (*UnimplementedUpVoteServiceServer) GetSumVotes(context.Context, *GetSumVotesRequest) (*GetSumVotesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSumVotes not implemented")
 }
-func (*UnimplementedUpVoteServiceServer) GetSumVotesByStreamRequest(context.Context, *GetSumVotesStreamRequest) (*GetSumVotesStreamResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSumVotesByStreamRequest not implemented")
+func (*UnimplementedUpVoteServiceServer) GetSumVotesByStream(*GetSumVotesStreamRequest, UpVoteService_GetSumVotesByStreamServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetSumVotesByStream not implemented")
 }
 
 func RegisterUpVoteServiceServer(s *grpc.Server, srv UpVoteServiceServer) {
@@ -1820,22 +1843,25 @@ func _UpVoteService_GetSumVotes_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UpVoteService_GetSumVotesByStreamRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSumVotesStreamRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _UpVoteService_GetSumVotesByStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetSumVotesStreamRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(UpVoteServiceServer).GetSumVotesByStreamRequest(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/upvote.UpVoteService/GetSumVotesByStreamRequest",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UpVoteServiceServer).GetSumVotesByStreamRequest(ctx, req.(*GetSumVotesStreamRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(UpVoteServiceServer).GetSumVotesByStream(m, &upVoteServiceGetSumVotesByStreamServer{stream})
+}
+
+type UpVoteService_GetSumVotesByStreamServer interface {
+	Send(*GetSumVotesStreamResponse) error
+	grpc.ServerStream
+}
+
+type upVoteServiceGetSumVotesByStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *upVoteServiceGetSumVotesByStreamServer) Send(m *GetSumVotesStreamResponse) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 var _UpVoteService_serviceDesc = grpc.ServiceDesc{
@@ -1878,11 +1904,13 @@ var _UpVoteService_serviceDesc = grpc.ServiceDesc{
 			MethodName: "GetSumVotes",
 			Handler:    _UpVoteService_GetSumVotes_Handler,
 		},
+	},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "GetSumVotesByStreamRequest",
-			Handler:    _UpVoteService_GetSumVotesByStreamRequest_Handler,
+			StreamName:    "GetSumVotesByStream",
+			Handler:       _UpVoteService_GetSumVotesByStream_Handler,
+			ServerStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "upvote/upvotesystem.proto",
 }

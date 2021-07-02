@@ -104,6 +104,6 @@ service UpVoteService {
     rpc UpVoteCriptocurrency(UpVoteCryptocurrencyRequest) returns (UpVoteCryptocurrencyResponse) {}
     rpc DownVoteCriptocurrency(DownVoteCryptocurrencyRequest) returns (DownVoteCryptocurrencyResponse) {}
     rpc GetSumVotes(GetSumVotesRequest) returns (GetSumVotesResponse) {}
-    rpc GetSumVotesByStreamRequest(GetSumVotesStreamRequest) returns (GetSumVotesStreamResponse) {}
+    rpc GetSumVotesByStream(GetSumVotesStreamRequest) returns (stream GetSumVotesStreamResponse) {}
 
 }
