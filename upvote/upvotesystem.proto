@@ -82,7 +82,7 @@ message GetSumVotesRequest {
 }
 
 message GetSumVotesResponse {
-    int64 votes = 1;
+    int32 votes = 1;
 }
 
 message GetSumVotesStreamRequest {
@@ -90,17 +90,17 @@ message GetSumVotesStreamRequest {
 }
 
 message GetSumVotesStreamResponse {
-    int64 votes = 1;
+    int32 votes = 1;
 }
 
 
 service UpVoteService {
-    rpc PingPong(Message) returns (Message) {}
+    rpc HealthCheck(Message) returns (Message) {}
     rpc CreateCryptocurrency(CreateCryptocurrencyRequest) returns (CreateCryptocurrencyResponse) {}
     rpc UpdateCryptocurrency(UpdateCryptocurrencyRequest) returns (UpdateCryptocurrencyResponse) {}
     rpc DeleteCryptocurrency(DeleteCryptocurrencyRequest) returns (DeleteCryptocurrencyResponse) {}
     rpc ReadCryptocurrencyById(ReadCryptocurrencyRequest) returns (ReadCryptocurrencyResponse) {}
-    rpc ListAllCriptocurrencies(ListAllCryptocurrenciesRequest) returns (ListAllCryptocurrenciesResponse) {}
+    rpc ListAllCriptocurrencies(ListAllCryptocurrenciesRequest) returns (stream ListAllCryptocurrenciesResponse) {}
     rpc UpVoteCriptocurrency(UpVoteCryptocurrencyRequest) returns (UpVoteCryptocurrencyResponse) {}
     rpc DownVoteCriptocurrency(DownVoteCryptocurrencyRequest) returns (DownVoteCryptocurrencyResponse) {}
     rpc GetSumVotes(GetSumVotesRequest) returns (GetSumVotesResponse) {}

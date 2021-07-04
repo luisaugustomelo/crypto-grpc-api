@@ -1,4 +1,4 @@
-package upvotetesting
+package main
 
 import (
 	"reflect"
