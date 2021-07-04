@@ -1,7 +1,8 @@
-package mongodb
+package databases
 
 import (
-	"klever/grpc/server/mongoDB/config"
+	"errors"
+	"klever/grpc/databases/config"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -16,17 +17,27 @@ type DatabaseHelper interface {
 
 type CollectionHelper interface {
 	FindOne(context.Context, interface{}) SingleResultHelper
+	Find(context.Context, interface{}) (CursorResultHelper, error)
 	InsertOne(context.Context, interface{}) (interface{}, error)
 	DeleteOne(ctx context.Context, filter interface{}) (int64, error)
+	FindOneAndUpdate(context.Context, interface{}, interface{}) SingleResultHelper
 }
 
 type SingleResultHelper interface {
 	Decode(v interface{}) error
+	Err() error
+}
+
+type CursorResultHelper interface {
+	Close(context.Context) error
+	Next(context.Context) bool
+	Decode(v interface{}) error
+	Err() error
 }
 
 type ClientHelper interface {
 	Database(string) DatabaseHelper
-	Connect() error
+	Connect(context.Context) error
 	StartSession() (mongo.Session, error)
 }
 
@@ -44,11 +55,15 @@ type mongoSingleResult struct {
 	sr *mongo.SingleResult
 }
 
+type mongoCursorResult struct {
+	cr *mongo.Cursor
+}
+
 type mongoSession struct {
 	mongo.Session
 }
 
-func NewClient(cnf *config.Config) (ClientHelper, error) {
+func NewSecureClient(cnf *config.Config) (ClientHelper, error) {
 	c, err := mongo.NewClient(options.Client().SetAuth(
 		options.Credential{
 			Username:   cnf.Username,
@@ -57,10 +72,15 @@ func NewClient(cnf *config.Config) (ClientHelper, error) {
 		}).ApplyURI(cnf.URL))
 
 	return &mongoClient{cl: c}, err
-
 }
 
-func NewDatabase(cnf *config.Config, client ClientHelper) DatabaseHelper {
+func NewClient(cnf *config.Config) (ClientHelper, error) {
+	c, err := mongo.NewClient(options.Client().ApplyURI(cnf.URL))
+
+	return &mongoClient{cl: c}, err
+}
+
+func Database(cnf *config.Config, client ClientHelper) DatabaseHelper {
 	return client.Database(cnf.DatabaseName)
 }
 
@@ -74,13 +94,8 @@ func (mc *mongoClient) StartSession() (mongo.Session, error) {
 	return &mongoSession{session}, err
 }
 
-func (mc *mongoClient) Connect() error {
-	// mongo client does not use context on connect method. There is a ticket
-	// with a request to deprecate this functionality and another one with
-	// explanation why it could be useful in synchronous requests.
-	// https://jira.mongodb.org/browse/GODRIVER-1031
-	// https://jira.mongodb.org/browse/GODRIVER-979
-	return mc.cl.Connect(nil)
+func (mc *mongoClient) Connect(ctx context.Context) error {
+	return mc.cl.Connect(ctx)
 }
 
 func (md *mongoDatabase) Collection(colName string) CollectionHelper {
@@ -98,6 +113,16 @@ func (mc *mongoCollection) FindOne(ctx context.Context, filter interface{}) Sing
 	return &mongoSingleResult{sr: singleResult}
 }
 
+func (mc *mongoCollection) Find(ctx context.Context, filter interface{}) (CursorResultHelper, error) {
+	cursorResult, err := mc.coll.Find(ctx, filter)
+	return &mongoCursorResult{cr: cursorResult}, err
+}
+
+func (mc *mongoCollection) FindOneAndUpdate(ctx context.Context, filter interface{}, update interface{}) SingleResultHelper {
+	singleResult := mc.coll.FindOneAndUpdate(ctx, filter, update)
+	return &mongoSingleResult{sr: singleResult}
+}
+
 func (mc *mongoCollection) InsertOne(ctx context.Context, document interface{}) (interface{}, error) {
 	id, err := mc.coll.InsertOne(ctx, document)
 	return id.InsertedID, err
@@ -111,3 +136,25 @@ func (mc *mongoCollection) DeleteOne(ctx context.Context, filter interface{}) (i
 func (sr *mongoSingleResult) Decode(v interface{}) error {
 	return sr.sr.Decode(v)
 }
+
+func (cr *mongoCursorResult) Decode(v interface{}) error {
+	return cr.cr.Decode(v)
+}
+
+func (cr *mongoCursorResult) Close(ctx context.Context) error {
+	return cr.cr.Close(ctx)
+}
+
+func (cr *mongoCursorResult) Next(ctx context.Context) bool {
+	return cr.cr.Next(ctx)
+}
+
+func (cr *mongoCursorResult) Err() error {
+	return cr.cr.Err()
+}
+
+func (sr *mongoSingleResult) Err() error {
+	return sr.sr.Err()
+}
+
+var ErrNoDocuments = errors.New("mongo: no documents in result")

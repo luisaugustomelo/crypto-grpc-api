@@ -8,11 +8,12 @@ import (
 	"sync"
 	"time"
 
+	mongo "klever/grpc/databases"
+	"klever/grpc/databases/config"
+
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -25,8 +26,8 @@ import (
 )
 
 // var dbClient *mongo.Client
+var db mongo.CollectionHelper
 var mongoCtx context.Context
-var db *mongo.Collection
 
 var allRegisteredClients []chan models.Cryptocurrency
 var removeClientMutex sync.Mutex
@@ -46,30 +47,30 @@ func loadEnvironmentVariable() {
 }
 
 func connectoToMongoDB() {
-	db_port := os.Getenv("KLEVER_MONGODB_PORT")
 
-	dbClient, err := mongo.NewClient(options.Client().ApplyURI("mongodb://mongodb:" + db_port))
+	conf := config.GetConfig()
+	dbClient, err := mongo.NewClient(conf)
 
 	if err != nil {
-		log.Fatalf("Problem with mongodb %s", err)
+		log.Fatalf("Failed to create new database client: %s", err)
 	}
 
 	mongoCtx = context.Background()
 	err = dbClient.Connect(mongoCtx)
 
 	if err != nil {
-		log.Fatalf("Error to connect from mongodb %s", err)
+		log.Fatalf("Failed to connect to database: %s", err.Error())
 	}
 
-	db = dbClient.Database("klever").Collection("cryptocurrencies")
+	db = dbClient.Database(conf.DatabaseName).Collection(conf.Collection)
 
 	log.Print("Connected to mongodb successfully")
 }
 
-func (s *Server) PingPong(ctx context.Context, message *system.Message) (*system.Message, error) {
-	log.Printf("Received message body from client: %v", message.Body)
+func (s *Server) HealthCheck(ctx context.Context, message *system.Message) (*system.Message, error) {
+	log.Printf("Received message of health check from client: %v", message.Body)
 
-	return &system.Message{Body: "Hello From the Server!"}, nil
+	return &system.Message{Body: "****** The server it's OK! ******"}, nil
 }
 
 func (s *Server) CreateCryptocurrency(ctx context.Context, request *system.CreateCryptocurrencyRequest) (*system.CreateCryptocurrencyResponse, error) {
@@ -107,7 +108,7 @@ func (s *Server) CreateCryptocurrency(ctx context.Context, request *system.Creat
 		return nil, err
 	}
 
-	crypto.Id = result.InsertedID.(primitive.ObjectID).Hex()
+	crypto.Id = result.(primitive.ObjectID).Hex()
 
 	response := &system.CreateCryptocurrencyResponse{Crypto: crypto}
 
@@ -138,7 +139,7 @@ func (s *Server) UpdateCryptocurrency(ctx context.Context, request *system.Updat
 		Description: description,
 	}
 
-	result := db.FindOneAndUpdate(mongoCtx, bson.M{"_id": cryptoId}, bson.M{"$set": data}, options.FindOneAndUpdate().SetReturnDocument(1))
+	result := db.FindOneAndUpdate(mongoCtx, bson.M{"_id": cryptoId}, bson.M{"$set": data})
 
 	if result.Err() != nil && result.Err() == mongo.ErrNoDocuments {
 		return nil, status.Errorf(codes.NotFound, "Cannot be find a crypto with this Object Id")
@@ -165,7 +166,7 @@ func (s *Server) DeleteCryptocurrency(ctx context.Context, request *system.Delet
 
 	result, err := db.DeleteOne(mongoCtx, bson.M{"_id": cryptoId})
 
-	if err != nil && result.DeletedCount == 0 {
+	if err != nil && result == 0 {
 		return nil, status.Errorf(codes.NotFound, "Cannot be delete a crypto with this Object Id")
 	}
 
@@ -240,7 +241,6 @@ func broadcast(msg models.Cryptocurrency) {
 		default:
 		}
 	}
-
 }
 
 func (s *Server) UpVoteCriptocurrency(ctx context.Context, request *system.UpVoteCryptocurrencyRequest) (*system.UpVoteCryptocurrencyResponse, error) {
@@ -255,12 +255,11 @@ func (s *Server) UpVoteCriptocurrency(ctx context.Context, request *system.UpVot
 		mongoCtx,
 		filter,
 		bson.M{"$inc": bson.M{"Upvote": 1}},
-		options.FindOneAndUpdate().SetReturnDocument(1),
 	)
 
 	if result.Err() != nil {
 		if result.Err() == mongo.ErrNoDocuments {
-			return nil, status.Errorf(codes.NotFound, "Couldn`t find Cryptocurrency with Object Id")
+			return nil, status.Errorf(codes.NotFound, "cannot find Cryptocurrency with Object Id")
 		}
 	}
 
@@ -297,12 +296,11 @@ func (s *Server) DownVoteCriptocurrency(ctx context.Context, request *system.Dow
 		mongoCtx,
 		filter,
 		bson.M{"$inc": bson.M{"Downvote": 1}},
-		options.FindOneAndUpdate().SetReturnDocument(1),
 	)
 
 	if result.Err() != nil {
 		if result.Err() == mongo.ErrNoDocuments {
-			return nil, status.Errorf(codes.NotFound, "Couldn`t find Cryptocurrency with Object Id")
+			return nil, status.Errorf(codes.NotFound, "Cannot find Cryptocurrency with Object Id")
 		}
 	}
 
@@ -337,7 +335,7 @@ func (s *Server) GetSumVotes(ctx context.Context, request *system.GetSumVotesReq
 	data := models.Cryptocurrency{}
 
 	if err := result.Decode(&data); err != nil {
-		return nil, status.Errorf(codes.NotFound, "Couldn`t find Cryptocurrency with Object Id")
+		return nil, status.Errorf(codes.NotFound, "Cannot find Cryptocurrency with Object Id")
 	}
 
 	response := &system.GetSumVotesResponse{
@@ -362,7 +360,6 @@ func disconectClient(channel chan models.Cryptocurrency) {
 		allRegisteredClients[i] = allRegisteredClients[len(allRegisteredClients)-1]
 		allRegisteredClients = allRegisteredClients[:len(allRegisteredClients)-1]
 	}
-
 }
 
 func (s *Server) GetSumVotesByStream(request *system.GetSumVotesStreamRequest, stream system.UpVoteService_GetSumVotesByStreamServer) error {
@@ -376,7 +373,7 @@ func (s *Server) GetSumVotesByStream(request *system.GetSumVotesStreamRequest, s
 	data := models.Cryptocurrency{}
 
 	if err := result.Decode(&data); err != nil {
-		return status.Errorf(codes.NotFound, "Couldn`t find Cryptocurrency with Object Id")
+		return status.Errorf(codes.NotFound, "Cannot find Cryptocurrency with Object Id")
 	}
 
 	ch := make(chan models.Cryptocurrency)

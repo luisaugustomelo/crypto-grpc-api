@@ -22,7 +22,7 @@ func main() {
 	c := system.NewUpVoteServiceClient(conn)
 
 	message := system.Message{
-		Body: "Hello from the client!",
+		Body: "Hello, all right there?!",
 	}
 
 	crypto := system.Cryptocurrency{
@@ -42,7 +42,7 @@ func main() {
 
 	log.Printf("Crypto created as success: %s", createResponse.Crypto)
 
-	response, err := c.PingPong(context.Background(), &message)
+	response, err := c.HealthCheck(context.Background(), &message)
 
 	if err != nil {
 		log.Fatalf("Error when calling UpVote: %s", err)

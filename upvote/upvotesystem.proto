@@ -95,7 +95,7 @@ message GetSumVotesStreamResponse {
 
 
 service UpVoteService {
-    rpc PingPong(Message) returns (Message) {}
+    rpc HealthCheck(Message) returns (Message) {}
     rpc CreateCryptocurrency(CreateCryptocurrencyRequest) returns (CreateCryptocurrencyResponse) {}
     rpc UpdateCryptocurrency(UpdateCryptocurrencyRequest) returns (UpdateCryptocurrencyResponse) {}
     rpc DeleteCryptocurrency(DeleteCryptocurrencyRequest) returns (DeleteCryptocurrencyResponse) {}
