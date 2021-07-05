@@ -5,32 +5,23 @@ import (
 	"net"
 	"os"
 	"path/filepath"
-	"sync"
-	"time"
 
 	mongo "klever/grpc/databases"
 	"klever/grpc/databases/config"
 
+	crud "klever/grpc/services/cryptocurrencies"
+	manage "klever/grpc/services/votes"
+
 	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
 
-	"google.golang.org/grpc/status"
-
-	"klever/grpc/models"
 	"klever/grpc/upvote/system"
 )
 
-// var dbClient *mongo.Client
 var db mongo.CollectionHelper
 var mongoCtx context.Context
-
-var allRegisteredClients []chan models.Cryptocurrency
-var removeClientMutex sync.Mutex
 
 type Server struct {
 	system.UnimplementedUpVoteServiceServer
@@ -74,351 +65,57 @@ func (s *Server) HealthCheck(ctx context.Context, message *system.Message) (*sys
 }
 
 func (s *Server) CreateCryptocurrency(ctx context.Context, request *system.CreateCryptocurrencyRequest) (*system.CreateCryptocurrencyResponse, error) {
-	crypto := request.GetCrypto()
+	response, err := crud.CreateCryptocurrencyService(request, db, mongoCtx)
 
-	name := crypto.GetName()
-	description := crypto.GetDescription()
-	initials := crypto.GetInitials()
-
-	if name == "" || description == "" || initials == "" {
-		return nil, status.Errorf(codes.InvalidArgument, "Empty fields")
-	}
-
-	data := models.Cryptocurrency{
-		Id:          primitive.NewObjectID(),
-		Name:        name,
-		Initials:    initials,
-		Upvote:      0,
-		Downvote:    0,
-		Description: description,
-	}
-
-	findResult := db.FindOne(mongoCtx, bson.M{"name": name})
-
-	isRegisteredCrypto := models.Cryptocurrency{}
-
-	if err := findResult.Decode(&isRegisteredCrypto); err == nil {
-		return nil, status.Error(codes.AlreadyExists, "Cryptocurrency already exists")
-	}
-
-	result, err := db.InsertOne(mongoCtx, data)
-
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	crypto.Id = result.(primitive.ObjectID).Hex()
-
-	response := &system.CreateCryptocurrencyResponse{Crypto: crypto}
-
-	return response, nil
+	return response, err
 }
 
 func (s *Server) UpdateCryptocurrency(ctx context.Context, request *system.UpdateCryptocurrencyRequest) (*system.UpdateCryptocurrencyResponse, error) {
-	crypto := request.GetCrypto()
+	response, err := crud.UpdateCryptocurrencyService(request, db, mongoCtx)
 
-	//Check if id is valid
-	cryptoId, err := primitive.ObjectIDFromHex(crypto.GetId())
-
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, err.Error())
-	}
-
-	name := crypto.GetName()
-	description := crypto.GetDescription()
-	initials := crypto.GetInitials()
-
-	if name == "" || description == "" || initials == "" {
-		return nil, status.Errorf(codes.InvalidArgument, "Empty fields")
-	}
-
-	data := models.Cryptocurrency{
-		Id:          cryptoId,
-		Name:        name,
-		Initials:    initials,
-		Description: description,
-	}
-
-	result := db.FindOneAndUpdate(mongoCtx, bson.M{"_id": cryptoId}, bson.M{"$set": data})
-
-	if result.Err() != nil && result.Err() == mongo.ErrNoDocuments {
-		return nil, status.Errorf(codes.NotFound, "Cannot be find a crypto with this Object Id")
-	}
-
-	isUpdatedCrypto := models.Cryptocurrency{}
-
-	err = result.Decode(&isUpdatedCrypto)
-	if err != nil {
-		status.Errorf(codes.NotFound, err.Error())
-	}
-
-	response := &system.UpdateCryptocurrencyResponse{Crypto: crypto}
-
-	return response, nil
+	return response, err
 }
 
 func (s *Server) DeleteCryptocurrency(ctx context.Context, request *system.DeleteCryptocurrencyRequest) (*system.DeleteCryptocurrencyResponse, error) {
-	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
+	response, err := crud.DeleteCryptocurrencyService(request, db, mongoCtx)
 
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, err.Error())
-	}
-
-	result, err := db.DeleteOne(mongoCtx, bson.M{"_id": cryptoId})
-
-	if err != nil && result == 0 {
-		return nil, status.Errorf(codes.NotFound, "Cannot be delete a crypto with this Object Id")
-	}
-
-	response := &system.DeleteCryptocurrencyResponse{Status: true}
-
-	return response, nil
+	return response, err
 }
 
 func (s *Server) ReadCryptocurrencyById(ctx context.Context, request *system.ReadCryptocurrencyRequest) (*system.ReadCryptocurrencyResponse, error) {
-	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
+	response, err := crud.ReadCryptocurrencyService(request, db, mongoCtx)
 
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, err.Error())
-	}
-
-	result := db.FindOne(mongoCtx, bson.M{"_id": cryptoId})
-
-	crypto := models.Cryptocurrency{}
-
-	err = result.Decode(&crypto)
-	if err != nil {
-		status.Errorf(codes.NotFound, "Cannot be find a crypto with this Object Id, error: "+err.Error())
-	}
-
-	response := &system.ReadCryptocurrencyResponse{
-		Crypto: &system.Cryptocurrency{
-			Id:          crypto.Id.Hex(),
-			Name:        crypto.Name,
-			Initials:    crypto.Initials,
-			Upvote:      crypto.Upvote,
-			Downvote:    crypto.Downvote,
-			Description: crypto.Description,
-		}}
-
-	return response, nil
+	return response, err
 }
 
 func (s *Server) ListAllCriptocurrencies(request *system.ListAllCryptocurrenciesRequest, stream system.UpVoteService_ListAllCriptocurrenciesServer) error {
-	data := &models.Cryptocurrency{}
+	err := manage.ListAllCriptocurrenciesService(request, stream, db, mongoCtx)
 
-	cryptos, err := db.Find(mongoCtx, bson.M{})
-	if err != nil {
-		return status.Errorf(codes.Internal, "Cannot find error: "+err.Error())
-	}
-
-	defer cryptos.Close(mongoCtx)
-
-	for cryptos.Next(mongoCtx) {
-		err := cryptos.Decode(data)
-		if err != nil {
-			return status.Errorf(codes.Unavailable, "Cannot be decode error: "+err.Error())
-		}
-
-		stream.Send(&system.ListAllCryptocurrenciesResponse{
-			Crypto: &system.Cryptocurrency{
-				Id:          data.Id.Hex(),
-				Name:        data.Name,
-				Description: data.Description,
-				Downvote:    data.Downvote,
-				Upvote:      data.Upvote,
-			},
-		})
-	}
-
-	if err := cryptos.Err(); err != nil {
-		return status.Errorf(codes.Internal, "Unkown mongoDB pointer error: "+err.Error())
-	}
-
-	return nil
-}
-
-func broadcast(msg models.Cryptocurrency) {
-	for _, channel := range allRegisteredClients {
-		select {
-		case channel <- msg:
-		default:
-		}
-	}
+	return err
 }
 
 func (s *Server) UpVoteCriptocurrency(ctx context.Context, request *system.UpVoteCryptocurrencyRequest) (*system.UpVoteCryptocurrencyResponse, error) {
-	cryptoID, err := primitive.ObjectIDFromHex(request.GetId())
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, err.Error())
-	}
+	response, err := manage.UpVoteCriptocurrencyService(request, db, mongoCtx)
 
-	filter := bson.M{"_id": cryptoID}
-
-	result := db.FindOneAndUpdate(
-		mongoCtx,
-		filter,
-		bson.M{"$inc": bson.M{"upvote": 1}},
-	)
-
-	if result.Err() != nil {
-		if result.Err() == mongo.ErrNoDocuments {
-			return nil, status.Errorf(codes.NotFound, "cannot find Cryptocurrency with Object Id")
-		}
-	}
-
-	crypto := models.Cryptocurrency{}
-	err = result.Decode(&crypto)
-	if err != nil {
-		status.Errorf(codes.NotFound, err.Error())
-	}
-
-	broadcast(crypto)
-
-	response := &system.UpVoteCryptocurrencyResponse{
-		Crypto: &system.Cryptocurrency{
-			Id:          crypto.Id.Hex(),
-			Name:        crypto.Name,
-			Description: crypto.Description,
-			Downvote:    crypto.Downvote,
-			Upvote:      crypto.Upvote,
-		},
-	}
-
-	return response, nil
+	return response, err
 }
 
 func (s *Server) DownVoteCriptocurrency(ctx context.Context, request *system.DownVoteCryptocurrencyRequest) (*system.DownVoteCryptocurrencyResponse, error) {
-	cryptoID, err := primitive.ObjectIDFromHex(request.GetId())
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, err.Error())
-	}
+	response, err := manage.DownVoteCriptocurrencyService(request, db, mongoCtx)
 
-	filter := bson.M{"_id": cryptoID}
-
-	result := db.FindOneAndUpdate(
-		mongoCtx,
-		filter,
-		bson.M{"$inc": bson.M{"downvote": 1}},
-	)
-
-	if result.Err() != nil {
-		if result.Err() == mongo.ErrNoDocuments {
-			return nil, status.Errorf(codes.NotFound, "Cannot find Cryptocurrency with Object Id")
-		}
-	}
-
-	crypto := models.Cryptocurrency{}
-	err = result.Decode(&crypto)
-	if err != nil {
-		status.Errorf(codes.NotFound, err.Error())
-	}
-
-	broadcast(crypto)
-
-	response := &system.DownVoteCryptocurrencyResponse{
-		Crypto: &system.Cryptocurrency{
-			Id:          crypto.Id.Hex(),
-			Name:        crypto.Name,
-			Description: crypto.Description,
-			Downvote:    int32(crypto.Downvote),
-			Upvote:      crypto.Upvote,
-		},
-	}
-
-	return response, nil
+	return response, err
 }
 
 func (s *Server) GetSumVotes(ctx context.Context, request *system.GetSumVotesRequest) (*system.GetSumVotesResponse, error) {
-	cryptoID, err := primitive.ObjectIDFromHex(request.GetId())
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, err.Error())
-	}
-	result := db.FindOne(mongoCtx, bson.M{"_id": cryptoID})
+	response, err := manage.GetSumVotesCryptocurrencyService(request, db, mongoCtx)
 
-	data := models.Cryptocurrency{}
-
-	if err := result.Decode(&data); err != nil {
-		return nil, status.Errorf(codes.NotFound, "Cannot find Cryptocurrency with Object Id")
-	}
-
-	response := &system.GetSumVotesResponse{
-		Votes: data.Upvote - data.Downvote,
-	}
-	return response, nil
-}
-
-func disconectClient(channel chan models.Cryptocurrency) {
-	removeClientMutex.Lock()
-	defer removeClientMutex.Unlock()
-	found := false
-	i := 0
-
-	for ; i < len(allRegisteredClients); i++ {
-		if allRegisteredClients[i] == channel {
-			found = true
-			break
-		}
-	}
-	if found {
-		allRegisteredClients[i] = allRegisteredClients[len(allRegisteredClients)-1]
-		allRegisteredClients = allRegisteredClients[:len(allRegisteredClients)-1]
-	}
+	return response, err
 }
 
 func (s *Server) GetSumVotesByStream(request *system.GetSumVotesStreamRequest, stream system.UpVoteService_GetSumVotesByStreamServer) error {
-	cryptoID, err := primitive.ObjectIDFromHex(request.GetId())
-	if err != nil {
-		return status.Errorf(codes.InvalidArgument, err.Error())
-	}
+	err := manage.GetSumVotesByStreamService(request, stream, db, mongoCtx)
 
-	result := db.FindOne(mongoCtx, bson.M{"_id": cryptoID})
-
-	data := models.Cryptocurrency{}
-
-	if err := result.Decode(&data); err != nil {
-		return status.Errorf(codes.NotFound, "Cannot find Cryptocurrency with Object Id")
-	}
-
-	ch := make(chan models.Cryptocurrency)
-
-	allRegisteredClients = append(allRegisteredClients, ch)
-
-	streamCtx := stream.Context()
-	go func() {
-		for {
-			if streamCtx.Err() == context.Canceled || streamCtx.Err() == context.DeadlineExceeded {
-
-				disconectClient(ch)
-
-				close(ch)
-				log.Print("End stream")
-				return
-			}
-			time.Sleep(time.Second)
-		}
-
-	}()
-
-	for crypto := range ch {
-		if cryptoID == crypto.Id {
-			sum := crypto.Upvote - crypto.Downvote
-			response := &system.GetSumVotesStreamResponse{
-				Votes: sum,
-			}
-			err := stream.Send(response)
-			if err != nil {
-
-				disconectClient(ch)
-				close(ch)
-				log.Print("End stream")
-
-				return nil
-			}
-		}
-	}
-	return nil
+	return err
 }
 
 func main() {
