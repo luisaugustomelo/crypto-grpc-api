@@ -134,6 +134,7 @@ func (s *Server) UpdateCryptocurrency(ctx context.Context, request *system.Updat
 	}
 
 	data := models.Cryptocurrency{
+		Id:          cryptoId,
 		Name:        name,
 		Initials:    initials,
 		Description: description,
@@ -186,18 +187,22 @@ func (s *Server) ReadCryptocurrencyById(ctx context.Context, request *system.Rea
 
 	crypto := models.Cryptocurrency{}
 
-	if err := result.Decode(&crypto); err == nil {
-		return nil, status.Error(codes.NotFound, "Cannot be delete a crypto with this Object Id")
+	err = result.Decode(&crypto)
+	if err != nil {
+		status.Errorf(codes.NotFound, "Cannot be find a crypto with this Object Id, error: "+err.Error())
 	}
 
-	return &system.ReadCryptocurrencyResponse{Crypto: &system.Cryptocurrency{
-		Id:          crypto.Id.Hex(),
-		Name:        crypto.Name,
-		Initials:    crypto.Initials,
-		Upvote:      crypto.Upvote,
-		Downvote:    crypto.Downvote,
-		Description: crypto.Description,
-	}}, nil
+	response := &system.ReadCryptocurrencyResponse{
+		Crypto: &system.Cryptocurrency{
+			Id:          crypto.Id.Hex(),
+			Name:        crypto.Name,
+			Initials:    crypto.Initials,
+			Upvote:      crypto.Upvote,
+			Downvote:    crypto.Downvote,
+			Description: crypto.Description,
+		}}
+
+	return response, nil
 }
 
 func (s *Server) ListAllCriptocurrencies(request *system.ListAllCryptocurrenciesRequest, stream system.UpVoteService_ListAllCriptocurrenciesServer) error {
@@ -254,7 +259,7 @@ func (s *Server) UpVoteCriptocurrency(ctx context.Context, request *system.UpVot
 	result := db.FindOneAndUpdate(
 		mongoCtx,
 		filter,
-		bson.M{"$inc": bson.M{"Upvote": 1}},
+		bson.M{"$inc": bson.M{"upvote": 1}},
 	)
 
 	if result.Err() != nil {
@@ -295,7 +300,7 @@ func (s *Server) DownVoteCriptocurrency(ctx context.Context, request *system.Dow
 	result := db.FindOneAndUpdate(
 		mongoCtx,
 		filter,
-		bson.M{"$inc": bson.M{"Downvote": 1}},
+		bson.M{"$inc": bson.M{"downvote": 1}},
 	)
 
 	if result.Err() != nil {
