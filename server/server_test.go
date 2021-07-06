@@ -131,8 +131,6 @@ func TestRestOfInternalCode(t *testing.T) {
 	timeoutCtx, _ := context.WithTimeout(ctx, 1*time.Microsecond)
 	db.Collection("non-fake-existing-collection").FindOne(timeoutCtx, "incorrect-value").Decode(&result)
 
-	log.Print("HUAHSUDUAHSUDUIASHDIUAS")
-
 	// insert and delete functions seems to panic instead of returning and error.
 	// I did not investigate anything in this case as this is not our main goal.
 	// Just define assert panic function and use this panicing function in it.
