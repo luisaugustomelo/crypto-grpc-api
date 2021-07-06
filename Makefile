@@ -5,3 +5,9 @@ migration:
 #generate protobuf
 gen:
 	@protoc --go_out=plugins=grpc:upvote ./upvote/upvotesystem.proto
+
+mocks:
+	@mockery --all --keeptree
+
+coverage:
+	@go test -coverprofile ./../coverage/fmtcoverage.html fmt
