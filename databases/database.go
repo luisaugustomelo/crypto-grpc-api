@@ -21,6 +21,7 @@ type CollectionHelper interface {
 	InsertOne(context.Context, interface{}) (interface{}, error)
 	DeleteOne(ctx context.Context, filter interface{}) (int64, error)
 	FindOneAndUpdate(context.Context, interface{}, interface{}) SingleResultHelper
+	Drop(context.Context)
 }
 
 type SingleResultHelper interface {
@@ -155,6 +156,10 @@ func (cr *mongoCursorResult) Err() error {
 
 func (sr *mongoSingleResult) Err() error {
 	return sr.sr.Err()
+}
+
+func (mc *mongoCollection) Drop(ctx context.Context) {
+	mc.coll.Drop(ctx)
 }
 
 var ErrNoDocuments = errors.New("mongo: no documents in result")

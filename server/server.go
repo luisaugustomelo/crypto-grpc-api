@@ -4,15 +4,11 @@ import (
 	"log"
 	"net"
 	"os"
-	"path/filepath"
 
 	mongo "klever/grpc/databases"
-	"klever/grpc/databases/config"
 
 	crud "klever/grpc/services/cryptocurrencies"
 	manage "klever/grpc/services/votes"
-
-	"github.com/joho/godotenv"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -25,37 +21,6 @@ var mongoCtx context.Context
 
 type Server struct {
 	system.UnimplementedUpVoteServiceServer
-}
-
-func loadEnvironmentVariable() {
-	path, _ := os.Getwd()
-
-	err := godotenv.Load(filepath.Join(path, ".env"))
-
-	if err != nil {
-		log.Fatalf("Error %s loading .env file", err)
-	}
-}
-
-func connectoToMongoDB() {
-
-	conf := config.GetConfig()
-	dbClient, err := mongo.NewClient(conf)
-
-	if err != nil {
-		log.Fatalf("Failed to create new database client: %s", err)
-	}
-
-	mongoCtx = context.Background()
-	err = dbClient.Connect(mongoCtx)
-
-	if err != nil {
-		log.Fatalf("Failed to connect to database: %s", err.Error())
-	}
-
-	db = dbClient.Database(conf.DatabaseName).Collection(conf.Collection)
-
-	log.Print("Connected to mongodb successfully")
 }
 
 func (s *Server) HealthCheck(ctx context.Context, message *system.Message) (*system.Message, error) {

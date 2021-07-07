@@ -130,9 +130,8 @@ func ReadCryptocurrencyService(request *system.ReadCryptocurrencyRequest, db mon
 
 	crypto := models.Cryptocurrency{}
 
-	err = result.Decode(&crypto)
-	if err != nil {
-		status.Errorf(codes.NotFound, "Cannot be find a crypto with this Object Id, error: "+err.Error())
+	if err := result.Decode(&crypto); err == nil {
+		status.Error(codes.NotFound, "Cannot be find a crypto with this Object Id")
 	}
 
 	response := &system.ReadCryptocurrencyResponse{

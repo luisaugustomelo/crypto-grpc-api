@@ -53,6 +53,7 @@ func UpVoteCriptocurrencyService(request *system.UpVoteCryptocurrencyRequest, db
 		Crypto: &system.Cryptocurrency{
 			Id:          crypto.Id.Hex(),
 			Name:        crypto.Name,
+			Initials:    crypto.Initials,
 			Description: crypto.Description,
 			Downvote:    crypto.Downvote,
 			Upvote:      crypto.Upvote,
@@ -94,6 +95,7 @@ func DownVoteCriptocurrencyService(request *system.DownVoteCryptocurrencyRequest
 		Crypto: &system.Cryptocurrency{
 			Id:          crypto.Id.Hex(),
 			Name:        crypto.Name,
+			Initials:    crypto.Initials,
 			Description: crypto.Description,
 			Downvote:    int32(crypto.Downvote),
 			Upvote:      crypto.Upvote,
@@ -223,6 +225,7 @@ func ListAllCriptocurrenciesService(request *system.ListAllCryptocurrenciesReque
 			Crypto: &system.Cryptocurrency{
 				Id:          data.Id.Hex(),
 				Name:        data.Name,
+				Initials:    data.Initials,
 				Description: data.Description,
 				Downvote:    data.Downvote,
 				Upvote:      data.Upvote,

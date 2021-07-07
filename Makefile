@@ -9,5 +9,5 @@ gen:
 mocks:
 	@mockery --all --keeptree
 
-coverage:
-	@go test -coverprofile ./../coverage/fmtcoverage.html fmt
+cover:
+	@go test ./server -cover -coverprofile ./../coverage/fmtcoverage.html fmt

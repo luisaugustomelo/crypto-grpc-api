@@ -1,6 +1,8 @@
 package config
 
-import "os"
+import (
+	"os"
+)
 
 // Config for database
 type Config struct {
@@ -17,7 +19,13 @@ func GetConfig() *Config {
 	username := os.Getenv("KLEVER_MONGODB_USERNAME")
 	password := os.Getenv("KLEVER_MONGODB_PASSWORD")
 	database := os.Getenv("KLEVER_MONGODB_DATABASE")
-	collection := os.Getenv("KLEVER_MONGODB_COLLECTION")
+	collection := os.Getenv("KLEVER_MONGODB_COLLECTION_TEST")
+
+	// if flag.Lookup("test.v") == nil {
+	// 	collection = os.Getenv("KLEVER_MONGODB_COLLECTION")
+	// } else {
+	// 	collection = os.Getenv("KLEVER_MONGODB_COLLECTION_TEST")
+	// }
 
 	return &Config{
 		Username:     username,
