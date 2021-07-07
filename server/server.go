@@ -7,9 +7,6 @@ import (
 
 	mongo "klever/grpc/databases"
 
-	crud "klever/grpc/services/cryptocurrencies"
-	manage "klever/grpc/services/votes"
-
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
@@ -27,60 +24,6 @@ func (s *Server) HealthCheck(ctx context.Context, message *system.Message) (*sys
 	log.Printf("Received message of health check from client: %v", message.Body)
 
 	return &system.Message{Body: "****** The server it's OK! ******"}, nil
-}
-
-func (s *Server) CreateCryptocurrency(ctx context.Context, request *system.CreateCryptocurrencyRequest) (*system.CreateCryptocurrencyResponse, error) {
-	response, err := crud.CreateCryptocurrencyService(request, db, mongoCtx)
-
-	return response, err
-}
-
-func (s *Server) UpdateCryptocurrency(ctx context.Context, request *system.UpdateCryptocurrencyRequest) (*system.UpdateCryptocurrencyResponse, error) {
-	response, err := crud.UpdateCryptocurrencyService(request, db, mongoCtx)
-
-	return response, err
-}
-
-func (s *Server) DeleteCryptocurrency(ctx context.Context, request *system.DeleteCryptocurrencyRequest) (*system.DeleteCryptocurrencyResponse, error) {
-	response, err := crud.DeleteCryptocurrencyService(request, db, mongoCtx)
-
-	return response, err
-}
-
-func (s *Server) ReadCryptocurrencyById(ctx context.Context, request *system.ReadCryptocurrencyRequest) (*system.ReadCryptocurrencyResponse, error) {
-	response, err := crud.ReadCryptocurrencyService(request, db, mongoCtx)
-
-	return response, err
-}
-
-func (s *Server) ListAllCriptocurrencies(request *system.ListAllCryptocurrenciesRequest, stream system.UpVoteService_ListAllCriptocurrenciesServer) error {
-	err := manage.ListAllCriptocurrenciesService(request, stream, db, mongoCtx)
-
-	return err
-}
-
-func (s *Server) UpVoteCriptocurrency(ctx context.Context, request *system.UpVoteCryptocurrencyRequest) (*system.UpVoteCryptocurrencyResponse, error) {
-	response, err := manage.UpVoteCriptocurrencyService(request, db, mongoCtx)
-
-	return response, err
-}
-
-func (s *Server) DownVoteCriptocurrency(ctx context.Context, request *system.DownVoteCryptocurrencyRequest) (*system.DownVoteCryptocurrencyResponse, error) {
-	response, err := manage.DownVoteCriptocurrencyService(request, db, mongoCtx)
-
-	return response, err
-}
-
-func (s *Server) GetSumVotes(ctx context.Context, request *system.GetSumVotesRequest) (*system.GetSumVotesResponse, error) {
-	response, err := manage.GetSumVotesCryptocurrencyService(request, db, mongoCtx)
-
-	return response, err
-}
-
-func (s *Server) GetSumVotesByStream(request *system.GetSumVotesStreamRequest, stream system.UpVoteService_GetSumVotesByStreamServer) error {
-	err := manage.GetSumVotesByStreamService(request, stream, db, mongoCtx)
-
-	return err
 }
 
 func main() {

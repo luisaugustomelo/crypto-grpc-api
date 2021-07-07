@@ -1,20 +1,19 @@
-package crud
+package main
 
 import (
-	"context"
-
 	mongo "klever/grpc/databases"
 	"klever/grpc/models"
-	system "klever/grpc/upvote/system"
+	"klever/grpc/upvote/system"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func CreateCryptocurrencyService(request *system.CreateCryptocurrencyRequest, db mongo.CollectionHelper, mongoCtx context.Context) (*system.CreateCryptocurrencyResponse, error) {
+func (s *Server) CreateCryptocurrency(ctx context.Context, request *system.CreateCryptocurrencyRequest) (*system.CreateCryptocurrencyResponse, error) {
 	crypto := request.GetCrypto()
 
 	name := crypto.GetName()
@@ -56,8 +55,7 @@ func CreateCryptocurrencyService(request *system.CreateCryptocurrencyRequest, db
 	return response, nil
 }
 
-func UpdateCryptocurrencyService(request *system.UpdateCryptocurrencyRequest, db mongo.CollectionHelper, mongoCtx context.Context) (*system.UpdateCryptocurrencyResponse, error) {
-
+func (s *Server) UpdateCryptocurrency(ctx context.Context, request *system.UpdateCryptocurrencyRequest) (*system.UpdateCryptocurrencyResponse, error) {
 	crypto := request.GetCrypto()
 
 	//Check if id is valid
@@ -100,8 +98,7 @@ func UpdateCryptocurrencyService(request *system.UpdateCryptocurrencyRequest, db
 	return response, nil
 }
 
-func DeleteCryptocurrencyService(request *system.DeleteCryptocurrencyRequest, db mongo.CollectionHelper, mongoCtx context.Context) (*system.DeleteCryptocurrencyResponse, error) {
-
+func (s *Server) DeleteCryptocurrency(ctx context.Context, request *system.DeleteCryptocurrencyRequest) (*system.DeleteCryptocurrencyResponse, error) {
 	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
 
 	if err != nil {
@@ -119,7 +116,7 @@ func DeleteCryptocurrencyService(request *system.DeleteCryptocurrencyRequest, db
 	return response, nil
 }
 
-func ReadCryptocurrencyService(request *system.ReadCryptocurrencyRequest, db mongo.CollectionHelper, mongoCtx context.Context) (*system.ReadCryptocurrencyResponse, error) {
+func (s *Server) ReadCryptocurrencyById(ctx context.Context, request *system.ReadCryptocurrencyRequest) (*system.ReadCryptocurrencyResponse, error) {
 	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
 
 	if err != nil {

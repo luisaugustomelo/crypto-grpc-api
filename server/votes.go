@@ -1,18 +1,16 @@
-package manage
+package main
 
 import (
-	"context"
+	mongo "klever/grpc/databases"
+	"klever/grpc/models"
+	"klever/grpc/upvote/system"
 	"log"
 	"sync"
 	"time"
 
-	// mongo "klever/grpc/databases"
-	mongo "klever/grpc/databases"
-	"klever/grpc/models"
-	system "klever/grpc/upvote/system"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -21,7 +19,42 @@ var allRegisteredClients []chan models.Cryptocurrency
 
 var removeClientMutex sync.Mutex
 
-func UpVoteCriptocurrencyService(request *system.UpVoteCryptocurrencyRequest, db mongo.CollectionHelper, mongoCtx context.Context) (*system.UpVoteCryptocurrencyResponse, error) {
+func (s *Server) ListAllCriptocurrencies(request *system.ListAllCryptocurrenciesRequest, stream system.UpVoteService_ListAllCriptocurrenciesServer) error {
+	data := &models.Cryptocurrency{}
+
+	cryptos, err := db.Find(mongoCtx, bson.M{})
+	if err != nil {
+		return status.Errorf(codes.Internal, "Cannot find error: "+err.Error())
+	}
+
+	defer cryptos.Close(mongoCtx)
+
+	for cryptos.Next(mongoCtx) {
+		err := cryptos.Decode(data)
+		if err != nil {
+			return status.Errorf(codes.Unavailable, "Cannot be decode error: "+err.Error())
+		}
+
+		stream.Send(&system.ListAllCryptocurrenciesResponse{
+			Crypto: &system.Cryptocurrency{
+				Id:          data.Id.Hex(),
+				Name:        data.Name,
+				Initials:    data.Initials,
+				Description: data.Description,
+				Downvote:    data.Downvote,
+				Upvote:      data.Upvote,
+			},
+		})
+	}
+
+	if err := cryptos.Err(); err != nil {
+		return status.Errorf(codes.Internal, "Unkown mongoDB pointer error: "+err.Error())
+	}
+
+	return nil
+}
+
+func (s *Server) UpVoteCriptocurrency(ctx context.Context, request *system.UpVoteCryptocurrencyRequest) (*system.UpVoteCryptocurrencyResponse, error) {
 	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, err.Error())
@@ -63,7 +96,7 @@ func UpVoteCriptocurrencyService(request *system.UpVoteCryptocurrencyRequest, db
 	return response, nil
 }
 
-func DownVoteCriptocurrencyService(request *system.DownVoteCryptocurrencyRequest, db mongo.CollectionHelper, mongoCtx context.Context) (*system.DownVoteCryptocurrencyResponse, error) {
+func (s *Server) DownVoteCriptocurrency(ctx context.Context, request *system.DownVoteCryptocurrencyRequest) (*system.DownVoteCryptocurrencyResponse, error) {
 	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, err.Error())
@@ -105,16 +138,7 @@ func DownVoteCriptocurrencyService(request *system.DownVoteCryptocurrencyRequest
 	return response, nil
 }
 
-func broadcast(msg models.Cryptocurrency) {
-	for _, channel := range allRegisteredClients {
-		select {
-		case channel <- msg:
-		default:
-		}
-	}
-}
-
-func GetSumVotesCryptocurrencyService(request *system.GetSumVotesRequest, db mongo.CollectionHelper, mongoCtx context.Context) (*system.GetSumVotesResponse, error) {
+func (s *Server) GetSumVotes(ctx context.Context, request *system.GetSumVotesRequest) (*system.GetSumVotesResponse, error) {
 	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, err.Error())
@@ -133,7 +157,7 @@ func GetSumVotesCryptocurrencyService(request *system.GetSumVotesRequest, db mon
 	return response, nil
 }
 
-func GetSumVotesByStreamService(request *system.GetSumVotesStreamRequest, stream system.UpVoteService_GetSumVotesByStreamServer, db mongo.CollectionHelper, mongoCtx context.Context) error {
+func (s *Server) GetSumVotesByStream(request *system.GetSumVotesStreamRequest, stream system.UpVoteService_GetSumVotesByStreamServer) error {
 	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
 	if err != nil {
 		return status.Errorf(codes.InvalidArgument, err.Error())
@@ -184,58 +208,5 @@ func GetSumVotesByStreamService(request *system.GetSumVotesStreamRequest, stream
 			}
 		}
 	}
-	return nil
-}
-
-func disconectClient(channel chan models.Cryptocurrency) {
-	removeClientMutex.Lock()
-	defer removeClientMutex.Unlock()
-	found := false
-	i := 0
-
-	for ; i < len(allRegisteredClients); i++ {
-		if allRegisteredClients[i] == channel {
-			found = true
-			break
-		}
-	}
-	if found {
-		allRegisteredClients[i] = allRegisteredClients[len(allRegisteredClients)-1]
-		allRegisteredClients = allRegisteredClients[:len(allRegisteredClients)-1]
-	}
-}
-
-func ListAllCriptocurrenciesService(request *system.ListAllCryptocurrenciesRequest, stream system.UpVoteService_ListAllCriptocurrenciesServer, db mongo.CollectionHelper, mongoCtx context.Context) error {
-	data := &models.Cryptocurrency{}
-
-	cryptos, err := db.Find(mongoCtx, bson.M{})
-	if err != nil {
-		return status.Errorf(codes.Internal, "Cannot find error: "+err.Error())
-	}
-
-	defer cryptos.Close(mongoCtx)
-
-	for cryptos.Next(mongoCtx) {
-		err := cryptos.Decode(data)
-		if err != nil {
-			return status.Errorf(codes.Unavailable, "Cannot be decode error: "+err.Error())
-		}
-
-		stream.Send(&system.ListAllCryptocurrenciesResponse{
-			Crypto: &system.Cryptocurrency{
-				Id:          data.Id.Hex(),
-				Name:        data.Name,
-				Initials:    data.Initials,
-				Description: data.Description,
-				Downvote:    data.Downvote,
-				Upvote:      data.Upvote,
-			},
-		})
-	}
-
-	if err := cryptos.Err(); err != nil {
-		return status.Errorf(codes.Internal, "Unkown mongoDB pointer error: "+err.Error())
-	}
-
 	return nil
 }
