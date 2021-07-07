@@ -4,7 +4,7 @@ migration:
 
 #generate protobuf
 gen:
-	@protoc --go_out=plugins=grpc:upvote ./upvote/upvotesystem.proto
+	@protoc --go_out=plugins=grpc:proto ./proto/upvotesystem.proto
 
 mocks:
 	@mockery --all --keeptree
