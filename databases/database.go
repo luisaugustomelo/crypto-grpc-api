@@ -22,7 +22,7 @@ type CollectionHelper interface {
 	InsertOne(context.Context, interface{}) (interface{}, error)
 	DeleteOne(ctx context.Context, filter interface{}) (int64, error)
 	FindOneAndUpdate(context.Context, interface{}, interface{}) SingleResultHelper
-	Drop(context.Context) (int64, error)
+	RemoveAll(context.Context) (int64, error)
 }
 
 type SingleResultHelper interface {
@@ -158,7 +158,7 @@ func (sr *mongoSingleResult) Err() error {
 	return sr.sr.Err()
 }
 
-func (mc *mongoCollection) Drop(ctx context.Context) (int64, error) {
+func (mc *mongoCollection) RemoveAll(ctx context.Context) (int64, error) {
 	result, err := mc.coll.DeleteMany(ctx, bson.D{{}})
 	return result.DeletedCount, err
 }

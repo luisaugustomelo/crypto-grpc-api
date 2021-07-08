@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"io"
@@ -14,10 +14,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func TestCreateCrypto(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
+func TestCreateCryptocurrency(t *testing.T) {
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect: %s", err)
@@ -27,13 +24,15 @@ func TestCreateCrypto(t *testing.T) {
 
 	c := system.NewUpVoteServiceClient(conn)
 
+	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
+
+	//Empty Fields
 	crypto := system.Cryptocurrency{
 		Name:        "",
 		Initials:    "",
 		Description: "",
 	}
 
-	//create
 	createCrypto := system.CreateCryptocurrencyRequest{Crypto: &crypto}
 
 	response, err := c.CreateCryptocurrency(context.Background(), &createCrypto)
@@ -49,7 +48,7 @@ func TestCreateCrypto(t *testing.T) {
 		Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
 	}
 
-	// Should to be able valid request
+	// Valid
 	validRequest := system.CreateCryptocurrencyRequest{Crypto: &crypto}
 
 	response, err = c.CreateCryptocurrency(context.Background(), &validRequest)
@@ -62,20 +61,15 @@ func TestCreateCrypto(t *testing.T) {
 	assert.Equal(t, int32(0), response.GetCrypto().GetUpvote())
 	assert.Equal(t, int32(0), response.GetCrypto().GetDownvote())
 
-	// SHould to be able valid but the crypto already exists
+	// Already exists
 	response, err = c.CreateCryptocurrency(context.Background(), &validRequest)
 
 	require.NotNil(t, err)
 	require.Nil(t, response)
 	assert.Equal(t, "rpc error: code = AlreadyExists desc = Cryptocurrency already exists", err.Error())
-
-	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 }
 
-func TestReadCryptoByID(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
+func TestUpdateCryptocurrency(t *testing.T) {
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect: %s", err)
@@ -85,7 +79,150 @@ func TestReadCryptoByID(t *testing.T) {
 
 	c := system.NewUpVoteServiceClient(conn)
 
-	// Test request with empty ID
+	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
+
+	// Empty ID
+	emptyIDRequest := &system.UpdateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Id: "",
+		},
+	}
+	_, err = c.UpdateCryptocurrency(context.Background(), emptyIDRequest)
+
+	require.NotNil(t, err)
+
+	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
+
+	// Empty fields
+	emptyFieldsRequest := &system.UpdateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Id:          primitive.NewObjectID().Hex(),
+			Name:        "",
+			Description: "",
+		},
+	}
+	_, err = c.UpdateCryptocurrency(context.Background(), emptyFieldsRequest)
+
+	require.NotNil(t, err)
+
+	assert.Equal(t, "rpc error: code = InvalidArgument desc = Empty fields", err.Error())
+
+	// Valid but ID Not found on the Mongo
+	NotFoundIDRequest := &system.UpdateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Id:          primitive.NewObjectID().Hex(),
+			Name:        "Bitcoin",
+			Initials:    "BTC",
+			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
+		},
+	}
+	_, err = c.UpdateCryptocurrency(context.Background(), NotFoundIDRequest)
+
+	require.Nil(t, err)
+
+	// Valid
+	createRequest := &system.CreateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Name:        "Bitcoin",
+			Initials:    "BTC",
+			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
+		},
+	}
+
+	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), createRequest)
+
+	require.Nil(t, err)
+
+	validRequest := system.UpdateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Id:          cryptoResponse.GetCrypto().GetId(),
+			Name:        "Ethereum",
+			Initials:    "BTC",
+			Description: "Ethereum is a decentralized open-source blockchain system that features its own cryptocurrency (...)",
+		},
+	}
+
+	response, err := c.UpdateCryptocurrency(context.Background(), &validRequest)
+
+	require.Nil(t, err)
+
+	//Check fields response
+	assert.Equal(t, validRequest.GetCrypto().GetId(), response.GetCrypto().GetId())
+	assert.Equal(t, validRequest.GetCrypto().GetInitials(), response.GetCrypto().GetInitials())
+	assert.Equal(t, validRequest.GetCrypto().GetName(), response.GetCrypto().GetName())
+	assert.Equal(t, validRequest.GetCrypto().GetDescription(), response.GetCrypto().GetDescription())
+	assert.Equal(t, validRequest.GetCrypto().GetUpvote(), response.GetCrypto().GetUpvote())
+	assert.Equal(t, validRequest.GetCrypto().GetDownvote(), response.GetCrypto().GetDownvote())
+}
+
+func TestDeleteCryptocurrency(t *testing.T) {
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Could not connect: %s", err)
+	}
+
+	defer conn.Close()
+
+	c := system.NewUpVoteServiceClient(conn)
+
+	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
+
+	// Empty
+	emptyIDRequest := &system.DeleteCryptocurrencyRequest{
+		Id: "",
+	}
+	_, err = c.DeleteCryptocurrency(context.Background(), emptyIDRequest)
+
+	require.NotNil(t, err)
+
+	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
+
+	// Valid but ID Not found on the Mongo
+	NotFoundIDRequest := system.DeleteCryptocurrencyRequest{
+		Id: primitive.NewObjectID().Hex(),
+	}
+
+	_, err = c.DeleteCryptocurrency(context.Background(), &NotFoundIDRequest)
+
+	require.Nil(t, err)
+
+	// Valid
+	createRequest := &system.CreateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Name:        "Bitcoin",
+			Initials:    "BTC",
+			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
+		},
+	}
+
+	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), createRequest)
+
+	require.Nil(t, err)
+
+	validRequest := &system.DeleteCryptocurrencyRequest{
+		Id: cryptoResponse.Crypto.GetId(),
+	}
+
+	response, err := c.DeleteCryptocurrency(context.Background(), validRequest)
+
+	require.Nil(t, err)
+
+	assert.Equal(t, true, response.GetStatus())
+}
+
+func TestReadCryptocurrencyById(t *testing.T) {
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Could not connect: %s", err)
+	}
+
+	defer conn.Close()
+
+	c := system.NewUpVoteServiceClient(conn)
+
+	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
+
+	// Empty
 	emptyIDRequest := &system.ReadCryptocurrencyRequest{
 		Id: "",
 	}
@@ -96,7 +233,7 @@ func TestReadCryptoByID(t *testing.T) {
 
 	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
 
-	// Test request with valid ID but not found on DB
+	// Valid but ID Not found on the Mongo
 	NotFoundIDRequest := &system.ReadCryptocurrencyRequest{
 		Id: primitive.NewObjectID().Hex(),
 	}
@@ -106,7 +243,7 @@ func TestReadCryptoByID(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, response)
 
-	// Test with valid request
+	// Valid
 	createRequest := system.CreateCryptocurrencyRequest{
 		Crypto: &system.Cryptocurrency{
 			Name:        "Bitcoin",
@@ -134,14 +271,9 @@ func TestReadCryptoByID(t *testing.T) {
 	assert.Equal(t, cryptoResponse.GetCrypto().GetDescription(), response.GetCrypto().GetDescription())
 	assert.Equal(t, cryptoResponse.GetCrypto().GetUpvote(), response.GetCrypto().GetUpvote())
 	assert.Equal(t, cryptoResponse.GetCrypto().GetDownvote(), response.GetCrypto().GetDownvote())
-
-	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 }
 
-func TestReadAllCrypto(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
+func TestListAllCriptocurrencies(t *testing.T) {
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect: %s", err)
@@ -151,7 +283,9 @@ func TestReadAllCrypto(t *testing.T) {
 
 	c := system.NewUpVoteServiceClient(conn)
 
-	// Test with no crypto found on DB
+	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
+
+	// Not found on the Mongo
 	var allCreatedCrypto []*system.CreateCryptocurrencyResponse
 
 	client := system.NewUpVoteServiceClient(conn)
@@ -182,15 +316,15 @@ func TestReadAllCrypto(t *testing.T) {
 	require.Nil(t, result)
 
 	a := system.Cryptocurrency{
-		Name:        "Bitcoin",
-		Initials:    "BTC",
-		Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
+		Name:        "Iota",
+		Initials:    "MIOTA",
+		Description: "IOTA is a distributed ledger with one big difference: it isn’t actually a blockchain.",
 	}
 
 	b := system.Cryptocurrency{
-		Name:        "Ethereum",
-		Initials:    "ETH",
-		Description: "Ethereum is a decentralized open-source blockchain system that features its own cryptocurrency (...)",
+		Name:        "Klever",
+		Initials:    "KLV",
+		Description: "Klever (KLV) is a crypto wallet ecosystem serving above 2 million users globally with Klever App (...)",
 	}
 
 	d := system.Cryptocurrency{
@@ -199,7 +333,7 @@ func TestReadAllCrypto(t *testing.T) {
 		Description: "USDT is a stablecoin (stable-value cryptocurrency) that mirrors the price of the U.S. dollar (...)",
 	}
 
-	// Test with populated DB
+	//mock
 	cryptoTest := []*system.Cryptocurrency{&a, &b, &d}
 
 	for _, crypto := range cryptoTest {
@@ -231,14 +365,9 @@ func TestReadAllCrypto(t *testing.T) {
 		assert.Equal(t, crypto.GetUpvote(), result[i].GetCrypto().GetUpvote())
 		assert.Equal(t, crypto.GetDownvote(), result[i].GetCrypto().GetDownvote())
 	}
-
-	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 }
 
-func TestDeleteCrypto(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
+func TestGetSumVotesByStream(t *testing.T) {
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect: %s", err)
@@ -248,356 +377,9 @@ func TestDeleteCrypto(t *testing.T) {
 
 	c := system.NewUpVoteServiceClient(conn)
 
-	// Test request with empty ID
-	emptyIDRequest := &system.DeleteCryptocurrencyRequest{
-		Id: "",
-	}
-	_, err = c.DeleteCryptocurrency(context.Background(), emptyIDRequest)
-
-	require.NotNil(t, err)
-
-	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
-
-	// Test request with valid ID but not found on DB
-	NotFoundIDRequest := system.DeleteCryptocurrencyRequest{
-		Id: primitive.NewObjectID().Hex(),
-	}
-
-	_, err = c.DeleteCryptocurrency(context.Background(), &NotFoundIDRequest)
-
-	require.Nil(t, err)
-
-	// Test with valid request
-	createRequest := &system.CreateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Name:        "Bitcoin",
-			Initials:    "BTC",
-			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
-		},
-	}
-
-	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), createRequest)
-
-	require.Nil(t, err)
-
-	validRequest := &system.DeleteCryptocurrencyRequest{
-		Id: cryptoResponse.Crypto.GetId(),
-	}
-
-	response, err := c.DeleteCryptocurrency(context.Background(), validRequest)
-
-	require.Nil(t, err)
-
-	assert.Equal(t, true, response.GetStatus())
-
 	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 
-}
-
-func TestUpdateCrypto(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Could not connect: %s", err)
-	}
-
-	defer conn.Close()
-
-	c := system.NewUpVoteServiceClient(conn)
-
-	// Test request with empty ID
-	emptyIDRequest := &system.UpdateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Id: "",
-		},
-	}
-	_, err = c.UpdateCryptocurrency(context.Background(), emptyIDRequest)
-
-	require.NotNil(t, err)
-
-	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
-
-	// Test request with empty fields
-	emptyFieldsRequest := &system.UpdateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Id:          primitive.NewObjectID().Hex(),
-			Name:        "",
-			Description: "",
-		},
-	}
-	_, err = c.UpdateCryptocurrency(context.Background(), emptyFieldsRequest)
-
-	require.NotNil(t, err)
-
-	assert.Equal(t, "rpc error: code = InvalidArgument desc = Empty fields", err.Error())
-
-	// Test with valid request but ID not found on DB
-	NotFoundIDRequest := &system.UpdateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Id:          primitive.NewObjectID().Hex(),
-			Name:        "Bitcoin",
-			Initials:    "BTC",
-			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
-		},
-	}
-	_, err = c.UpdateCryptocurrency(context.Background(), NotFoundIDRequest)
-
-	require.Nil(t, err)
-
-	// Test with valid request
-	createRequest := &system.CreateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Name:        "Bitcoin",
-			Initials:    "BTC",
-			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
-		},
-	}
-
-	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), createRequest)
-
-	require.Nil(t, err)
-
-	validRequest := system.UpdateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Id:          cryptoResponse.GetCrypto().GetId(),
-			Name:        "Ethereum",
-			Initials:    "BTC",
-			Description: "Ethereum is a decentralized open-source blockchain system that features its own cryptocurrency (...)",
-		},
-	}
-
-	response, err := c.UpdateCryptocurrency(context.Background(), &validRequest)
-
-	require.Nil(t, err)
-
-	assert.Equal(t, validRequest.GetCrypto().GetId(), response.GetCrypto().GetId())
-	assert.Equal(t, validRequest.GetCrypto().GetInitials(), response.GetCrypto().GetInitials())
-	assert.Equal(t, validRequest.GetCrypto().GetName(), response.GetCrypto().GetName())
-	assert.Equal(t, validRequest.GetCrypto().GetDescription(), response.GetCrypto().GetDescription())
-	assert.Equal(t, validRequest.GetCrypto().GetUpvote(), response.GetCrypto().GetUpvote())
-	assert.Equal(t, validRequest.GetCrypto().GetDownvote(), response.GetCrypto().GetDownvote())
-
-	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
-}
-
-func TestUpvoteCrypto(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Could not connect: %s", err)
-	}
-
-	defer conn.Close()
-
-	c := system.NewUpVoteServiceClient(conn)
-
-	// Test request with empty ID
-	emptyIDRequest := &system.UpVoteCryptocurrencyRequest{
-		Id: "",
-	}
-	_, err = c.UpVoteCriptocurrency(context.Background(), emptyIDRequest)
-
-	require.NotNil(t, err)
-
-	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
-
-	// Test request with valid ID but not found on DB
-	NotFoundIDRequest := &system.UpVoteCryptocurrencyRequest{
-		Id: primitive.NewObjectID().Hex(),
-	}
-	_, err = c.UpVoteCriptocurrency(context.Background(), NotFoundIDRequest)
-
-	require.Nil(t, err)
-
-	// Test with valid request
-	createRequest := &system.CreateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Name:        "Bitcoin",
-			Initials:    "BTC",
-			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
-		},
-	}
-
-	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), createRequest)
-
-	require.Nil(t, err)
-
-	validRequest := system.UpVoteCryptocurrencyRequest{
-		Id: cryptoResponse.GetCrypto().GetId(),
-	}
-	response, err := c.UpVoteCriptocurrency(context.Background(), &validRequest)
-
-	require.Nil(t, err)
-
-	assert.Equal(t, cryptoResponse.GetCrypto().GetId(), response.GetCrypto().GetId())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetInitials(), response.GetCrypto().GetInitials())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetName(), response.GetCrypto().GetName())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetDescription(), response.GetCrypto().GetDescription())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetUpvote(), response.GetCrypto().GetUpvote())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetDownvote(), response.GetCrypto().GetDownvote())
-
-	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
-
-}
-
-func TestDownvoteCrypto(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Could not connect: %s", err)
-	}
-
-	defer conn.Close()
-
-	c := system.NewUpVoteServiceClient(conn)
-
-	// Test request with empty ID
-	emptyIDRequest := &system.DownVoteCryptocurrencyRequest{
-		Id: "",
-	}
-	_, err = c.DownVoteCriptocurrency(context.Background(), emptyIDRequest)
-
-	require.NotNil(t, err)
-
-	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
-
-	// Test request with valid ID but not found on DB
-	NotFoundIDRequest := &system.DownVoteCryptocurrencyRequest{
-		Id: primitive.NewObjectID().Hex(),
-	}
-	_, err = c.DownVoteCriptocurrency(context.Background(), NotFoundIDRequest)
-
-	require.Nil(t, err)
-
-	// Test with valid request
-	createRequest := system.CreateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Name:        "Bitcoin",
-			Initials:    "BTC",
-			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
-		},
-	}
-
-	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), &createRequest)
-
-	require.Nil(t, err)
-
-	validRequest := &system.DownVoteCryptocurrencyRequest{
-		Id: cryptoResponse.GetCrypto().GetId(),
-	}
-	response, err := c.DownVoteCriptocurrency(context.Background(), validRequest)
-
-	require.Nil(t, err)
-
-	assert.Equal(t, cryptoResponse.GetCrypto().GetId(), response.GetCrypto().GetId())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetInitials(), response.GetCrypto().GetInitials())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetName(), response.GetCrypto().GetName())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetDescription(), response.GetCrypto().GetDescription())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetUpvote(), response.GetCrypto().GetUpvote())
-	assert.Equal(t, cryptoResponse.GetCrypto().GetDownvote(), response.GetCrypto().GetDownvote())
-
-	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
-
-}
-
-func TestGetVotesSum(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Could not connect: %s", err)
-	}
-
-	defer conn.Close()
-
-	c := system.NewUpVoteServiceClient(conn)
-
-	// Test request with empty ID
-	emptyIDRequest := &system.GetSumVotesRequest{
-		Id: "",
-	}
-	_, err = c.GetSumVotes(context.Background(), emptyIDRequest)
-
-	require.NotNil(t, err)
-
-	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
-
-	// Test request with valid ID but not found on DB
-	NotFoundIDRequest := system.GetSumVotesRequest{
-		Id: primitive.NewObjectID().Hex(),
-	}
-	_, err = c.GetSumVotes(context.Background(), &NotFoundIDRequest)
-
-	require.NotNil(t, err)
-
-	assert.Equal(t, "rpc error: code = NotFound desc = Cannot find Cryptocurrency with Object Id", err.Error())
-
-	// Test with valid request
-	createRequest := system.CreateCryptocurrencyRequest{
-		Crypto: &system.Cryptocurrency{
-			Name:        "Bitcoin",
-			Initials:    "BTC",
-			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
-		},
-	}
-
-	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), &createRequest)
-
-	require.Nil(t, err)
-
-	var downvoteResponse *system.DownVoteCryptocurrencyResponse
-
-	for i := 0; i < 5; i++ {
-		validRequest := system.UpVoteCryptocurrencyRequest{
-			Id: cryptoResponse.GetCrypto().GetId(),
-		}
-		_, err = c.UpVoteCriptocurrency(context.Background(), &validRequest)
-
-		require.Nil(t, err)
-	}
-
-	for i := 0; i < 2; i++ {
-		validRequest := &system.DownVoteCryptocurrencyRequest{
-			Id: cryptoResponse.GetCrypto().GetId(),
-		}
-		downvoteResponse, err = c.DownVoteCriptocurrency(context.Background(), validRequest)
-
-		require.Nil(t, err)
-	}
-
-	validRequest := &system.GetSumVotesRequest{
-		Id: cryptoResponse.GetCrypto().GetId(),
-	}
-	response, err := c.GetSumVotes(context.Background(), validRequest)
-
-	require.Nil(t, err)
-
-	assert.Equal(t, downvoteResponse.GetCrypto().GetUpvote()-downvoteResponse.GetCrypto().GetDownvote(), response.GetVotes()+1)
-
-	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
-}
-
-func TestGetVotesSumStream(t *testing.T) {
-	connectionDb()
-	var conn *grpc.ClientConn
-
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Could not connect: %s", err)
-	}
-
-	defer conn.Close()
-
-	c := system.NewUpVoteServiceClient(conn)
-
-	// Test invalid request
+	// Invalid
 	client := system.NewUpVoteServiceClient(conn)
 	request := &system.GetSumVotesStreamRequest{
 		Id: "",
@@ -631,7 +413,7 @@ func TestGetVotesSumStream(t *testing.T) {
 	require.NotNil(t, err)
 	require.Nil(t, result)
 
-	// Test valid live update
+	// Valid
 	createRequest := system.CreateCryptocurrencyRequest{
 		Crypto: &system.Cryptocurrency{
 			Name:        "Bitcoin",
@@ -678,12 +460,202 @@ func TestGetVotesSumStream(t *testing.T) {
 		require.Nil(t, err)
 
 	}
-	// Sleep to give stream time to receive before finish Test
+
 	time.Sleep(200 * time.Microsecond)
 
 	require.Nil(t, err)
 
 	require.Equal(t, int32(2), resp.GetVotes()-1)
+}
+
+func TestUpVoteCriptocurrency(t *testing.T) {
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Could not connect: %s", err)
+	}
+
+	defer conn.Close()
+
+	c := system.NewUpVoteServiceClient(conn)
 
 	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
+
+	// Empty
+	emptyIDRequest := &system.UpVoteCryptocurrencyRequest{
+		Id: "",
+	}
+	_, err = c.UpVoteCriptocurrency(context.Background(), emptyIDRequest)
+
+	require.NotNil(t, err)
+
+	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
+
+	// Valid but ID Not found on the Mongo
+	NotFoundIDRequest := &system.UpVoteCryptocurrencyRequest{
+		Id: primitive.NewObjectID().Hex(),
+	}
+	_, err = c.UpVoteCriptocurrency(context.Background(), NotFoundIDRequest)
+
+	require.Nil(t, err)
+
+	// Valid
+	createRequest := &system.CreateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Name:        "Bitcoin",
+			Initials:    "BTC",
+			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
+		},
+	}
+
+	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), createRequest)
+
+	require.Nil(t, err)
+
+	validRequest := system.UpVoteCryptocurrencyRequest{
+		Id: cryptoResponse.GetCrypto().GetId(),
+	}
+	response, err := c.UpVoteCriptocurrency(context.Background(), &validRequest)
+
+	require.Nil(t, err)
+
+	assert.Equal(t, cryptoResponse.GetCrypto().GetId(), response.GetCrypto().GetId())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetInitials(), response.GetCrypto().GetInitials())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetName(), response.GetCrypto().GetName())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetDescription(), response.GetCrypto().GetDescription())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetUpvote(), response.GetCrypto().GetUpvote())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetDownvote(), response.GetCrypto().GetDownvote())
+}
+
+func TestDownVoteCriptocurrency(t *testing.T) {
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Could not connect: %s", err)
+	}
+
+	defer conn.Close()
+
+	c := system.NewUpVoteServiceClient(conn)
+
+	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
+
+	// Empty
+	emptyIDRequest := &system.DownVoteCryptocurrencyRequest{
+		Id: "",
+	}
+	_, err = c.DownVoteCriptocurrency(context.Background(), emptyIDRequest)
+
+	require.NotNil(t, err)
+
+	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
+
+	// Valid but ID Not found on the Mongo
+	NotFoundIDRequest := &system.DownVoteCryptocurrencyRequest{
+		Id: primitive.NewObjectID().Hex(),
+	}
+	_, err = c.DownVoteCriptocurrency(context.Background(), NotFoundIDRequest)
+
+	require.Nil(t, err)
+
+	// Valid
+	createRequest := system.CreateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Name:        "Bitcoin",
+			Initials:    "BTC",
+			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
+		},
+	}
+
+	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), &createRequest)
+
+	require.Nil(t, err)
+
+	validRequest := &system.DownVoteCryptocurrencyRequest{
+		Id: cryptoResponse.GetCrypto().GetId(),
+	}
+	response, err := c.DownVoteCriptocurrency(context.Background(), validRequest)
+
+	require.Nil(t, err)
+
+	assert.Equal(t, cryptoResponse.GetCrypto().GetId(), response.GetCrypto().GetId())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetInitials(), response.GetCrypto().GetInitials())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetName(), response.GetCrypto().GetName())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetDescription(), response.GetCrypto().GetDescription())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetUpvote(), response.GetCrypto().GetUpvote())
+	assert.Equal(t, cryptoResponse.GetCrypto().GetDownvote(), response.GetCrypto().GetDownvote())
+}
+
+func TestGetSumVotes(t *testing.T) {
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Could not connect: %s", err)
+	}
+
+	defer conn.Close()
+
+	c := system.NewUpVoteServiceClient(conn)
+
+	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
+
+	// Empty
+	emptyIDRequest := &system.GetSumVotesRequest{
+		Id: "",
+	}
+	_, err = c.GetSumVotes(context.Background(), emptyIDRequest)
+
+	require.NotNil(t, err)
+
+	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
+
+	// Valid but ID Not found on the Mongo
+	NotFoundIDRequest := system.GetSumVotesRequest{
+		Id: primitive.NewObjectID().Hex(),
+	}
+	_, err = c.GetSumVotes(context.Background(), &NotFoundIDRequest)
+
+	require.NotNil(t, err)
+
+	assert.Equal(t, "rpc error: code = NotFound desc = Cannot find Cryptocurrency with Object Id", err.Error())
+
+	// Valid
+	createRequest := system.CreateCryptocurrencyRequest{
+		Crypto: &system.Cryptocurrency{
+			Name:        "Bitcoin",
+			Initials:    "BTC",
+			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
+		},
+	}
+
+	cryptoResponse, err := c.CreateCryptocurrency(context.Background(), &createRequest)
+
+	require.Nil(t, err)
+
+	var downvoteResponse *system.DownVoteCryptocurrencyResponse
+
+	for i := 0; i < 10; i++ {
+		validRequest := system.UpVoteCryptocurrencyRequest{
+			Id: cryptoResponse.GetCrypto().GetId(),
+		}
+		_, err = c.UpVoteCriptocurrency(context.Background(), &validRequest)
+
+		require.Nil(t, err)
+	}
+
+	for i := 0; i < 8; i++ {
+		validRequest := &system.DownVoteCryptocurrencyRequest{
+			Id: cryptoResponse.GetCrypto().GetId(),
+		}
+		downvoteResponse, err = c.DownVoteCriptocurrency(context.Background(), validRequest)
+
+		require.Nil(t, err)
+	}
+
+	validRequest := &system.GetSumVotesRequest{
+		Id: cryptoResponse.GetCrypto().GetId(),
+	}
+	response, err := c.GetSumVotes(context.Background(), validRequest)
+
+	require.Nil(t, err)
+
+	assert.Equal(t, downvoteResponse.GetCrypto().GetUpvote()-downvoteResponse.GetCrypto().GetDownvote(), response.GetVotes()+1)
+
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"os"
@@ -26,9 +25,9 @@ import (
 
 var db mongo.CollectionHelper
 var mongoCtx context.Context
-var allRegisteredClients []chan models.Cryptocurrency
+var registedConsumers []chan models.Cryptocurrency
 
-var removeClientMutex sync.Mutex
+var removeConsumers sync.Mutex
 
 type Server struct {
 	system.UnimplementedUpVoteServiceServer
@@ -41,6 +40,21 @@ func loadEnvironmentVariable() {
 
 	if err != nil {
 		log.Fatalf("Error %s loading .env file", err)
+	}
+}
+
+func disconnectConsumers(channel chan models.Cryptocurrency) {
+	removeConsumers.Lock()
+	defer removeConsumers.Unlock()
+
+	indexConsumers := len(registedConsumers) - 1
+
+	for i := 0; i < len(registedConsumers); i++ {
+		if registedConsumers[i] == channel {
+			registedConsumers[i] = registedConsumers[indexConsumers]
+			registedConsumers = registedConsumers[:indexConsumers]
+			break
+		}
 	}
 }
 
@@ -68,11 +82,11 @@ func connectoToMongoDB() {
 func (s *Server) HealthCheck(ctx context.Context, message *system.Message) (*system.Message, error) {
 	log.Printf("Received message of health check from client: %v", message.Body)
 
-	return &system.Message{Body: "****** The server it's OK! ******"}, nil
+	return &system.Message{Body: "true"}, nil
 }
 
 func (s *Server) CleanCollection(ctx context.Context, message *system.CleanCollectionRequest) (*system.CleanCollectionResponse, error) {
-	deletedCount, err := db.Drop(ctx)
+	deletedCount, err := db.RemoveAll(ctx)
 
 	return &system.CleanCollectionResponse{DeletedCount: deletedCount}, err
 }
@@ -131,6 +145,7 @@ func (s *Server) CreateCryptocurrency(ctx context.Context, request *system.Creat
 	if err := findResult.Decode(&isRegisteredCrypto); err == nil {
 		return nil, status.Error(codes.AlreadyExists, "Cryptocurrency already exists")
 	}
+
 	result, err := db.InsertOne(mongoCtx, data)
 
 	if err != nil {
@@ -148,7 +163,6 @@ func (s *Server) CreateCryptocurrency(ctx context.Context, request *system.Creat
 func (s *Server) UpdateCryptocurrency(ctx context.Context, request *system.UpdateCryptocurrencyRequest) (*system.UpdateCryptocurrencyResponse, error) {
 	crypto := request.GetCrypto()
 
-	//Check if id is valid
 	cryptoId, err := primitive.ObjectIDFromHex(crypto.GetId())
 
 	if err != nil {
@@ -271,6 +285,61 @@ func (s *Server) ListAllCriptocurrencies(request *system.ListAllCryptocurrencies
 	return nil
 }
 
+func (s *Server) GetSumVotesByStream(request *system.GetSumVotesStreamRequest, stream system.UpVoteService_GetSumVotesByStreamServer) error {
+	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
+
+	if err != nil {
+		return status.Errorf(codes.InvalidArgument, err.Error())
+	}
+
+	result := db.FindOne(mongoCtx, bson.M{"_id": cryptoId})
+
+	data := models.Cryptocurrency{}
+
+	if err := result.Decode(&data); err != nil {
+		return status.Errorf(codes.NotFound, "Cannot find Cryptocurrency with Object Id")
+	}
+
+	ch := make(chan models.Cryptocurrency)
+
+	registedConsumers = append(registedConsumers, ch)
+	log.Print("Starting stream connection")
+
+	streamCtx := stream.Context()
+	go func() {
+		for {
+			if streamCtx.Err() == context.Canceled || streamCtx.Err() == context.DeadlineExceeded {
+				disconnectConsumers(ch)
+				close(ch)
+
+				log.Print("End connection")
+				break
+			}
+			time.Sleep(time.Second)
+		}
+
+	}()
+
+	for crypto := range ch {
+		if cryptoId == crypto.Id {
+			err := stream.Send(
+				&system.GetSumVotesStreamResponse{
+					Votes: crypto.Upvote - crypto.Downvote,
+				},
+			)
+
+			if err != nil {
+				disconnectConsumers(ch)
+				close(ch)
+
+				log.Print("End stream")
+				break
+			}
+		}
+	}
+	return nil
+}
+
 func (s *Server) UpVoteCriptocurrency(ctx context.Context, request *system.UpVoteCryptocurrencyRequest) (*system.UpVoteCryptocurrencyResponse, error) {
 	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
 	if err != nil {
@@ -355,6 +424,15 @@ func (s *Server) DownVoteCriptocurrency(ctx context.Context, request *system.Dow
 	return response, nil
 }
 
+func broadcast(msg models.Cryptocurrency) {
+	for _, channel := range registedConsumers {
+		select {
+		case channel <- msg:
+		default:
+		}
+	}
+}
+
 func (s *Server) GetSumVotes(ctx context.Context, request *system.GetSumVotesRequest) (*system.GetSumVotesResponse, error) {
 	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
 	if err != nil {
@@ -372,115 +450,4 @@ func (s *Server) GetSumVotes(ctx context.Context, request *system.GetSumVotesReq
 		Votes: data.Upvote - data.Downvote,
 	}
 	return response, nil
-}
-
-func (s *Server) GetSumVotesByStream(request *system.GetSumVotesStreamRequest, stream system.UpVoteService_GetSumVotesByStreamServer) error {
-	cryptoId, err := primitive.ObjectIDFromHex(request.GetId())
-	if err != nil {
-		return status.Errorf(codes.InvalidArgument, err.Error())
-	}
-
-	result := db.FindOne(mongoCtx, bson.M{"_id": cryptoId})
-
-	data := models.Cryptocurrency{}
-
-	if err := result.Decode(&data); err != nil {
-		return status.Errorf(codes.NotFound, "Cannot find Cryptocurrency with Object Id")
-	}
-
-	ch := make(chan models.Cryptocurrency)
-
-	allRegisteredClients = append(allRegisteredClients, ch)
-
-	streamCtx := stream.Context()
-	go func() {
-		for {
-			if streamCtx.Err() == context.Canceled || streamCtx.Err() == context.DeadlineExceeded {
-
-				disconectClient(ch)
-
-				close(ch)
-				log.Print("End stream")
-				return
-			}
-			time.Sleep(time.Second)
-		}
-
-	}()
-
-	for crypto := range ch {
-		if cryptoId == crypto.Id {
-			sum := crypto.Upvote - crypto.Downvote
-			response := &system.GetSumVotesStreamResponse{
-				Votes: sum,
-			}
-			err := stream.Send(response)
-			if err != nil {
-
-				disconectClient(ch)
-				close(ch)
-				log.Print("End stream")
-
-				return nil
-			}
-		}
-	}
-	return nil
-}
-
-//Utils
-
-func broadcast(msg models.Cryptocurrency) {
-	for _, channel := range allRegisteredClients {
-		select {
-		case channel <- msg:
-		default:
-		}
-	}
-}
-
-func disconectClient(channel chan models.Cryptocurrency) {
-	removeClientMutex.Lock()
-	defer removeClientMutex.Unlock()
-	found := false
-	i := 0
-
-	for ; i < len(allRegisteredClients); i++ {
-		if allRegisteredClients[i] == channel {
-			found = true
-			break
-		}
-	}
-	if found {
-		allRegisteredClients[i] = allRegisteredClients[len(allRegisteredClients)-1]
-		allRegisteredClients = allRegisteredClients[:len(allRegisteredClients)-1]
-	}
-}
-
-func connectionDb() {
-	path, _ := os.Getwd()
-
-	err := godotenv.Load(filepath.Join(path, "..", ".env"))
-
-	if err != nil {
-		log.Fatalf("Error %s loading .env file", err)
-	}
-
-	conf := config.GetConfig()
-	dbClient, err := mongo.NewClient(conf)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	mongoCtx = context.Background()
-	err = dbClient.Connect(mongoCtx)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	db = dbClient.Database("klever").Collection("test")
-
-	fmt.Println("Connected to MongoDB")
 }
