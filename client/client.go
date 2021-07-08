@@ -8,7 +8,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	system "klever/grpc/upvote/system"
+	system "klever/grpc/proto/system"
 )
 
 func main() {

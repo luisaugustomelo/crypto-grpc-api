@@ -93,6 +93,13 @@ message GetSumVotesStreamResponse {
     int32 votes = 1;
 }
 
+message CleanCollectionRequest {
+
+}
+
+message CleanCollectionResponse {
+    int64 deletedCount = 1;
+}
 
 service UpVoteService {
     rpc HealthCheck(Message) returns (Message) {}
@@ -105,5 +112,6 @@ service UpVoteService {
     rpc DownVoteCriptocurrency(DownVoteCryptocurrencyRequest) returns (DownVoteCryptocurrencyResponse) {}
     rpc GetSumVotes(GetSumVotesRequest) returns (GetSumVotesResponse) {}
     rpc GetSumVotesByStream(GetSumVotesStreamRequest) returns (stream GetSumVotesStreamResponse) {}
+    rpc CleanCollection(CleanCollectionRequest) returns (CleanCollectionResponse) {}
 
 }

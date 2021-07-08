@@ -4,6 +4,7 @@ import (
 	"errors"
 	"klever/grpc/databases/config"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -21,7 +22,7 @@ type CollectionHelper interface {
 	InsertOne(context.Context, interface{}) (interface{}, error)
 	DeleteOne(ctx context.Context, filter interface{}) (int64, error)
 	FindOneAndUpdate(context.Context, interface{}, interface{}) SingleResultHelper
-	Drop(context.Context)
+	Drop(context.Context) (int64, error)
 }
 
 type SingleResultHelper interface {
@@ -41,7 +42,6 @@ type ClientHelper interface {
 	Connect(context.Context) error
 	StartSession() (mongo.Session, error)
 }
-
 type mongoClient struct {
 	cl *mongo.Client
 }
@@ -158,8 +158,9 @@ func (sr *mongoSingleResult) Err() error {
 	return sr.sr.Err()
 }
 
-func (mc *mongoCollection) Drop(ctx context.Context) {
-	mc.coll.Drop(ctx)
+func (mc *mongoCollection) Drop(ctx context.Context) (int64, error) {
+	result, err := mc.coll.DeleteMany(ctx, bson.D{{}})
+	return result.DeletedCount, err
 }
 
 var ErrNoDocuments = errors.New("mongo: no documents in result")
