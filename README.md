@@ -8,13 +8,7 @@ This is a gGRPC API written in Go Lang. The objective of this project is to prov
 - Docker
 - Golang@1.16.5
 
-### Optional
 
-The application has a migration system, to fill the cryptocurrencies of collection from database klever it's necessary run:
-
-```bash
-make migrate state=up #up or down
-```
 ### How to install and run
 
 1. Clone Repository
@@ -33,4 +27,12 @@ make go #It's starts and/or install application
 
 ```bash
 make test
+```
+
+### Optional
+
+The application has a migration system, to fill the cryptocurrencies of collection from database klever it's necessary run:
+
+```bash
+make migrate state=up #up or down
 ```
