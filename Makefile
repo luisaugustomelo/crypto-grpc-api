@@ -9,5 +9,9 @@ gen:
 mocks:
 	@mockery --all --keeptree
 
-cover:
-	@go test ./server -cover -coverprofile ./../coverage/fmtcoverage.html fmt
+go:
+	@docker-compose up
+	
+test:
+	@go test -cover ./server -coverprofile ./../coverage/fmtcoverage.html fmt
+

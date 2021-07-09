@@ -82,12 +82,12 @@ func TestUpdateCryptocurrency(t *testing.T) {
 	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 
 	// Empty ID
-	emptyIDRequest := &system.UpdateCryptocurrencyRequest{
+	emptyRequest := &system.UpdateCryptocurrencyRequest{
 		Crypto: &system.Cryptocurrency{
 			Id: "",
 		},
 	}
-	_, err = c.UpdateCryptocurrency(context.Background(), emptyIDRequest)
+	_, err = c.UpdateCryptocurrency(context.Background(), emptyRequest)
 
 	require.NotNil(t, err)
 
@@ -108,7 +108,7 @@ func TestUpdateCryptocurrency(t *testing.T) {
 	assert.Equal(t, "rpc error: code = InvalidArgument desc = Empty fields", err.Error())
 
 	// Valid but ID Not found on the Mongo
-	NotFoundIDRequest := &system.UpdateCryptocurrencyRequest{
+	notFoundRequest := &system.UpdateCryptocurrencyRequest{
 		Crypto: &system.Cryptocurrency{
 			Id:          primitive.NewObjectID().Hex(),
 			Name:        "Bitcoin",
@@ -116,7 +116,7 @@ func TestUpdateCryptocurrency(t *testing.T) {
 			Description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 (...)",
 		},
 	}
-	_, err = c.UpdateCryptocurrency(context.Background(), NotFoundIDRequest)
+	_, err = c.UpdateCryptocurrency(context.Background(), notFoundRequest)
 
 	require.Nil(t, err)
 
@@ -168,21 +168,21 @@ func TestDeleteCryptocurrency(t *testing.T) {
 	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 
 	// Empty
-	emptyIDRequest := &system.DeleteCryptocurrencyRequest{
+	emptyRequest := &system.DeleteCryptocurrencyRequest{
 		Id: "",
 	}
-	_, err = c.DeleteCryptocurrency(context.Background(), emptyIDRequest)
+	_, err = c.DeleteCryptocurrency(context.Background(), emptyRequest)
 
 	require.NotNil(t, err)
 
 	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
 
 	// Valid but ID Not found on the Mongo
-	NotFoundIDRequest := system.DeleteCryptocurrencyRequest{
+	notFoundRequest := system.DeleteCryptocurrencyRequest{
 		Id: primitive.NewObjectID().Hex(),
 	}
 
-	_, err = c.DeleteCryptocurrency(context.Background(), &NotFoundIDRequest)
+	_, err = c.DeleteCryptocurrency(context.Background(), &notFoundRequest)
 
 	require.Nil(t, err)
 
@@ -223,10 +223,10 @@ func TestReadCryptocurrencyById(t *testing.T) {
 	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 
 	// Empty
-	emptyIDRequest := &system.ReadCryptocurrencyRequest{
+	emptyRequest := &system.ReadCryptocurrencyRequest{
 		Id: "",
 	}
-	response, err := c.ReadCryptocurrencyById(context.Background(), emptyIDRequest)
+	response, err := c.ReadCryptocurrencyById(context.Background(), emptyRequest)
 
 	require.NotNil(t, err)
 	require.Nil(t, response)
@@ -234,11 +234,11 @@ func TestReadCryptocurrencyById(t *testing.T) {
 	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
 
 	// Valid but ID Not found on the Mongo
-	NotFoundIDRequest := &system.ReadCryptocurrencyRequest{
+	notFoundRequest := &system.ReadCryptocurrencyRequest{
 		Id: primitive.NewObjectID().Hex(),
 	}
 
-	response, err = c.ReadCryptocurrencyById(context.Background(), NotFoundIDRequest)
+	response, err = c.ReadCryptocurrencyById(context.Background(), notFoundRequest)
 
 	require.Nil(t, err)
 	require.NotNil(t, response)
@@ -481,20 +481,20 @@ func TestUpVoteCriptocurrency(t *testing.T) {
 	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 
 	// Empty
-	emptyIDRequest := &system.UpVoteCryptocurrencyRequest{
+	emptyRequest := &system.UpVoteCryptocurrencyRequest{
 		Id: "",
 	}
-	_, err = c.UpVoteCriptocurrency(context.Background(), emptyIDRequest)
+	_, err = c.UpVoteCriptocurrency(context.Background(), emptyRequest)
 
 	require.NotNil(t, err)
 
 	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
 
 	// Valid but ID Not found on the Mongo
-	NotFoundIDRequest := &system.UpVoteCryptocurrencyRequest{
+	notFoundRequest := &system.UpVoteCryptocurrencyRequest{
 		Id: primitive.NewObjectID().Hex(),
 	}
-	_, err = c.UpVoteCriptocurrency(context.Background(), NotFoundIDRequest)
+	_, err = c.UpVoteCriptocurrency(context.Background(), notFoundRequest)
 
 	require.Nil(t, err)
 
@@ -539,20 +539,20 @@ func TestDownVoteCriptocurrency(t *testing.T) {
 	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 
 	// Empty
-	emptyIDRequest := &system.DownVoteCryptocurrencyRequest{
+	emptyRequest := &system.DownVoteCryptocurrencyRequest{
 		Id: "",
 	}
-	_, err = c.DownVoteCriptocurrency(context.Background(), emptyIDRequest)
+	_, err = c.DownVoteCriptocurrency(context.Background(), emptyRequest)
 
 	require.NotNil(t, err)
 
 	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
 
 	// Valid but ID Not found on the Mongo
-	NotFoundIDRequest := &system.DownVoteCryptocurrencyRequest{
+	notFoundRequest := &system.DownVoteCryptocurrencyRequest{
 		Id: primitive.NewObjectID().Hex(),
 	}
-	_, err = c.DownVoteCriptocurrency(context.Background(), NotFoundIDRequest)
+	_, err = c.DownVoteCriptocurrency(context.Background(), notFoundRequest)
 
 	require.Nil(t, err)
 
@@ -597,20 +597,20 @@ func TestGetSumVotes(t *testing.T) {
 	c.CleanCollection(context.Background(), &system.CleanCollectionRequest{})
 
 	// Empty
-	emptyIDRequest := &system.GetSumVotesRequest{
+	emptyRequest := &system.GetSumVotesRequest{
 		Id: "",
 	}
-	_, err = c.GetSumVotes(context.Background(), emptyIDRequest)
+	_, err = c.GetSumVotes(context.Background(), emptyRequest)
 
 	require.NotNil(t, err)
 
 	assert.Equal(t, "rpc error: code = InvalidArgument desc = the provided hex string is not a valid ObjectID", err.Error())
 
 	// Valid but ID Not found on the Mongo
-	NotFoundIDRequest := system.GetSumVotesRequest{
+	notFoundRequest := system.GetSumVotesRequest{
 		Id: primitive.NewObjectID().Hex(),
 	}
-	_, err = c.GetSumVotes(context.Background(), &NotFoundIDRequest)
+	_, err = c.GetSumVotes(context.Background(), &notFoundRequest)
 
 	require.NotNil(t, err)
 
@@ -629,7 +629,7 @@ func TestGetSumVotes(t *testing.T) {
 
 	require.Nil(t, err)
 
-	var downvoteResponse *system.DownVoteCryptocurrencyResponse
+	var downVoteResponse *system.DownVoteCryptocurrencyResponse
 
 	for i := 0; i < 10; i++ {
 		validRequest := system.UpVoteCryptocurrencyRequest{
@@ -644,7 +644,7 @@ func TestGetSumVotes(t *testing.T) {
 		validRequest := &system.DownVoteCryptocurrencyRequest{
 			Id: cryptoResponse.GetCrypto().GetId(),
 		}
-		downvoteResponse, err = c.DownVoteCriptocurrency(context.Background(), validRequest)
+		downVoteResponse, err = c.DownVoteCriptocurrency(context.Background(), validRequest)
 
 		require.Nil(t, err)
 	}
@@ -656,6 +656,6 @@ func TestGetSumVotes(t *testing.T) {
 
 	require.Nil(t, err)
 
-	assert.Equal(t, downvoteResponse.GetCrypto().GetUpvote()-downvoteResponse.GetCrypto().GetDownvote(), response.GetVotes()+1)
+	assert.Equal(t, downVoteResponse.GetCrypto().GetUpvote()-downVoteResponse.GetCrypto().GetDownvote(), response.GetVotes()+1)
 
 }
