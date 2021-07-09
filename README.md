@@ -1,4 +1,4 @@
-# klever
+# gRPC API
 
 ## About
 ### This is a gGRPC API written in Go Lang. The objective of this project is to provide a C(reat)R(ead)U(pdate)D(elete) of cryptocurrencies and provide routes for these coins to be voted up or down. This application relies on the concept of routes and streams to receive real-time data from your modifications.
